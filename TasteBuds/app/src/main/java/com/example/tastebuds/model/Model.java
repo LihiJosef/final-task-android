@@ -21,6 +21,7 @@ public class Model {
     }
     List<Post> data = new LinkedList<>();
     List<Post> userPosts = new LinkedList<>();
+    User user;
 
 
     private  Model(){
@@ -31,6 +32,8 @@ public class Model {
         for(int i=0; i<4; i++){
             addUserPost(new Post(""+i, "yossi", "", "blala", 4, "sdsdad"));
         }
+
+        user = new User("yossiCohen13", "Yossi Cohen", "");
     }
 
     public interface  Listener<T>{
@@ -45,6 +48,10 @@ public class Model {
     public void getAllUserPosts(Listener<List<Post>> callback){
         Log.d("Post", "check");
         callback.onComplete(this.userPosts);
+    }
+
+    public User getUser(){
+        return this.user;
     }
 
     public void addPost(Post post) {

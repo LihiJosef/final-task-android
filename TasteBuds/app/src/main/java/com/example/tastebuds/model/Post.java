@@ -16,9 +16,6 @@ public class Post {
     private Integer stars = 0;
     private String review = "";
 
-    @Ignore
-    public Post(){}
-
     public Post(@NonNull String id, String userName, String imageUrl, String location, Integer stars, String review) {
         this.id = id;
         this.userName = userName;
