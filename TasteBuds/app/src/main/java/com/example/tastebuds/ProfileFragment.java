@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.tastebuds.databinding.FragmentProfileBinding;
 import com.example.tastebuds.model.Model;
 
+//TODO : add user details and real post from db
+
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
     UserPostRecyclerAdapter adapter;
