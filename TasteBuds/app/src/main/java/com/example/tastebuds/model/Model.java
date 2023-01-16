@@ -20,10 +20,16 @@ public class Model {
         return _instance;
     }
     List<Post> data = new LinkedList<>();
+    List<Post> userPosts = new LinkedList<>();
+
 
     private  Model(){
         for(int i=0; i<20; i++){
             addPost(new Post(""+i, "name " + i, "", "blala", 4, "sdsdad"));
+        }
+
+        for(int i=0; i<4; i++){
+            addUserPost(new Post(""+i, "yossi", "", "blala", 4, "sdsdad"));
         }
     }
 
@@ -36,9 +42,19 @@ public class Model {
         callback.onComplete(this.data);
     }
 
+    public void getAllUserPosts(Listener<List<Post>> callback){
+        Log.d("Post", "check");
+        callback.onComplete(this.userPosts);
+    }
+
     public void addPost(Post post) {
         data.add(post);
     }
+
+    public void addUserPost(Post post) {
+        userPosts.add(post);
+    }
+
 
 
 

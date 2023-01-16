@@ -14,28 +14,23 @@ import com.example.tastebuds.model.Post;
 import java.util.List;
 
 // 3
-class FeedViewHolder extends RecyclerView.ViewHolder{
-    ImageView userImage;
-    TextView userTv;
+class UserPostViewHolder extends RecyclerView.ViewHolder{
     ImageView postImage;
     TextView locationTv;
     TextView starsTv;
     TextView reviewTv;
     List<Post> data;
 
-    public FeedViewHolder(@NonNull View itemView, FeedRecyclerAdapter.OnItemClickListener listener, List<Post> data) {
+    public UserPostViewHolder(@NonNull View itemView, UserPostRecyclerAdapter.OnItemClickListener listener, List<Post> data) {
         super(itemView);
         this.data = data;
-        userImage = itemView.findViewById(R.id.feedlistrow_user_img);
-        userTv = itemView.findViewById(R.id.feedlistrow_user_tv);
-        postImage = itemView.findViewById(R.id.feedlistrow_post_img);
-        locationTv = itemView.findViewById(R.id.feedlistrow_location_tv);
-        starsTv = itemView.findViewById(R.id.feedlistrow_stars_tv);
-        reviewTv = itemView.findViewById(R.id.feedlistrow_review_tv);
+        postImage = itemView.findViewById(R.id.userpostlistrow_post_img);
+        locationTv = itemView.findViewById(R.id.userpostlistrow_location_tv);
+        starsTv = itemView.findViewById(R.id.userpostlistrow_stars_tv);
+        reviewTv = itemView.findViewById(R.id.userpostlistrow_review_tv);
     }
 
     public void bind(Post post, int pos){
-        userTv.setText(post.getUserName());
         locationTv.setText(post.getLocation());
         starsTv.setText(post.getStars().toString() + "/5");
         reviewTv.setText(post.getReview());
@@ -48,7 +43,7 @@ class FeedViewHolder extends RecyclerView.ViewHolder{
     }
 }
 
-public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedViewHolder>{
+public class UserPostRecyclerAdapter extends RecyclerView.Adapter<UserPostViewHolder>{
     /*Set listener to catch view row click and handle in the activity ->*/
     OnItemClickListener listener;
     LayoutInflater inflater;
@@ -63,7 +58,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedViewHolder>{
         notifyDataSetChanged();
     }
 
-    public FeedRecyclerAdapter(LayoutInflater inflater, List<Post> data){
+    public UserPostRecyclerAdapter(LayoutInflater inflater, List<Post> data){
         this.inflater = inflater;
         this.data = data;
     }
@@ -74,14 +69,14 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedViewHolder>{
 
     @NonNull
     @Override
-    public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserPostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // 4
-        View view = inflater.inflate(R.layout.feed_list_row, parent, false);
-        return new FeedViewHolder(view, listener, data);
+        View view = inflater.inflate(R.layout.userpost_list_row, parent, false);
+        return new UserPostViewHolder(view, listener, data);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserPostViewHolder holder, int position) {
         Post post = data.get(position);
         holder.bind(post, position);
     }
