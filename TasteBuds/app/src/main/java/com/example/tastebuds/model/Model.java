@@ -28,8 +28,8 @@ public class Model {
             addPost(new Post(""+i, "name " + i, "", "blala", 4, "sdsdad"));
         }
 
-        for(int i=0; i<10; i++){
-            addPost(new Post(""+i, "yossi", "", "blala", 4, "sdsdad"));
+        for(int i=0; i<4; i++){
+            addUserPost(new Post(""+i, "yossi", "", "blala", 4, "sdsdad"));
         }
     }
 
@@ -44,7 +44,7 @@ public class Model {
 
     public void getAllUserPosts(Listener<List<Post>> callback){
         Log.d("Post", "check");
-        callback.onComplete(this.data);
+        callback.onComplete(this.userPosts);
     }
 
     public void addPost(Post post) {
@@ -52,7 +52,7 @@ public class Model {
     }
 
     public void addUserPost(Post post) {
-        data.add(post);
+        userPosts.add(post);
     }
 
 

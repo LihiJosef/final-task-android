@@ -95,11 +95,11 @@ public class ProfileFragment extends Fragment {
     }
 
     void reloadData() {
-//        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
         Model.instance().getAllUserPosts((psList) -> {
             viewModel.setData(psList);
             adapter.setData(viewModel.getData());
-//            binding.progressBar.setVisibility(View.GONE);
+            binding.progressBar.setVisibility(View.GONE);
         });
     }
 }
