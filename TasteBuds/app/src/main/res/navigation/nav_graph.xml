@@ -20,5 +20,11 @@
         android:name="com.example.tastebuds.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.tastebuds.EditProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_edit_profile" />
+
 
 </navigation>
