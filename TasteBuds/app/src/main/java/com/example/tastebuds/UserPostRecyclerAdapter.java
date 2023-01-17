@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tastebuds.model.Post;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,11 +37,11 @@ class UserPostViewHolder extends RecyclerView.ViewHolder {
         reviewTv.setText(post.getReview());
 
         // todo : get post picture
-//        if(post.getImageUrl() != "") {
-//            Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.avatar).into(postImage);
-//        } else {
-//            postImage.setImageResource(R.drawable.avatar);
-//        }
+        if(post.getImageUrl() != "") {
+            Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.blank_img).into(postImage);
+        } else {
+            postImage.setImageResource(R.drawable.blank_img);
+        }
     }
 }
 
