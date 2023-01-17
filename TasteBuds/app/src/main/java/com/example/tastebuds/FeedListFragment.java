@@ -2,28 +2,24 @@ package com.example.tastebuds;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.tastebuds.databinding.FragmentFeedListBinding;
-import com.example.tastebuds.databinding.FragmentNewPostBinding;
 import com.example.tastebuds.model.Model;
-import com.example.tastebuds.model.Post;
 
 public class FeedListFragment extends Fragment {
     FragmentFeedListBinding binding;
     FeedRecyclerAdapter adapter;
     FeedListFragmentViewModel viewModel;
+
+    // todo : get real data for posts
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +72,7 @@ public class FeedListFragment extends Fragment {
 
     void reloadData() {
         binding.progressBar.setVisibility(View.VISIBLE);
-        Model.instance().getAllPosts((psList)->{
+        Model.instance().getAllPosts((psList) -> {
             viewModel.setData(psList);
             adapter.setData(viewModel.getData());
             binding.progressBar.setVisibility(View.GONE);
