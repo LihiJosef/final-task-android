@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tastebuds.model.Post;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,11 +41,11 @@ class FeedViewHolder extends RecyclerView.ViewHolder{
         starsTv.setText(post.getStars().toString() + "/5");
         reviewTv.setText(post.getReview());
 
-//        if(post.getImageUrl() != "") {
-//            Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.avatar).into(postImage);
-//        } else {
-//            postImage.setImageResource(R.drawable.avatar);
-//        }
+        if(post.getImageUrl() != "") {
+            Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.blank_img).into(postImage);
+        } else {
+            postImage.setImageResource(R.drawable.blank_img);
+        }
     }
 }
 
