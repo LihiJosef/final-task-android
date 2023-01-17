@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,19 +23,23 @@ import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 
 import com.example.tastebuds.databinding.FragmentEditProfileBinding;
+import com.example.tastebuds.model.User;
 
 public class EditProfileFragment extends Fragment {
     FragmentEditProfileBinding binding;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
+    User user = new User("yossiCohen13", "Yossi Cohen" , "");
 
     Boolean isAvatarSelected = false;
+
+    // todo add user info
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // todo ?
+        // צריך את הבלוק הזה? todo :
         FragmentActivity parentActivity = getActivity();
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
@@ -46,7 +51,7 @@ public class EditProfileFragment extends Fragment {
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
                 return false;
             }
-        },this, Lifecycle.State.RESUMED);
+        }, this, Lifecycle.State.RESUMED);
 
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
             @Override
@@ -74,6 +79,9 @@ public class EditProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentEditProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
+        EditText nicknameEt = view.findViewById(R.id.editprofile_nickname_et);
+        nicknameEt.setText(user.getNickName());
 
         // todo : save edited profile
 //        binding.saveBtn.setOnClickListener(view1 -> {
@@ -106,7 +114,7 @@ public class EditProfileFragment extends Fragment {
         });
 
         binding.galleryButton.setOnClickListener(view1 -> {
-            galleryLauncher.launch("media/*");
+            galleryLauncher.launch("image/*");
         });
         return view;
     }

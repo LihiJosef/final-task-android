@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,13 +21,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentProfileBinding;
 import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.User;
 
-//TODO : add user details and real post from db
+//TODO : add user details and real posts from db
 
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
     UserPostRecyclerAdapter adapter;
     UserPostListFragmentViewModel viewModel;
+
+    // todo : delete
+    User user = new User("yossiCohen13", "Yossi Cohen", "");
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +58,15 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false);
+
+        View view = binding.getRoot();
+
+        // todo : bind user profile picture
+        TextView nicknameTv = view.findViewById(R.id.profile_nickname_tv);
+        TextView usernameTv = view.findViewById(R.id.profile_username_tv);
+
+        nicknameTv.setText(user.getNickName());
+        usernameTv.setText("@" + user.getUserName());
 
         /*RecyclerView include:
          * 1. Layout Manager
