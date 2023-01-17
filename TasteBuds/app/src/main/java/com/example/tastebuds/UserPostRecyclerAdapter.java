@@ -14,7 +14,7 @@ import com.example.tastebuds.model.Post;
 import java.util.List;
 
 // 3
-class UserPostViewHolder extends RecyclerView.ViewHolder{
+class UserPostViewHolder extends RecyclerView.ViewHolder {
     ImageView postImage;
     TextView locationTv;
     TextView starsTv;
@@ -30,11 +30,12 @@ class UserPostViewHolder extends RecyclerView.ViewHolder{
         reviewTv = itemView.findViewById(R.id.userpostlistrow_review_tv);
     }
 
-    public void bind(Post post, int pos){
+    public void bind(Post post, int pos) {
         locationTv.setText(post.getLocation());
         starsTv.setText(post.getStars().toString() + "/5");
         reviewTv.setText(post.getReview());
 
+        // todo : get post picture
 //        if(post.getImageUrl() != "") {
 //            Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.avatar).into(postImage);
 //        } else {
@@ -43,27 +44,27 @@ class UserPostViewHolder extends RecyclerView.ViewHolder{
     }
 }
 
-public class UserPostRecyclerAdapter extends RecyclerView.Adapter<UserPostViewHolder>{
+public class UserPostRecyclerAdapter extends RecyclerView.Adapter<UserPostViewHolder> {
     /*Set listener to catch view row click and handle in the activity ->*/
     OnItemClickListener listener;
     LayoutInflater inflater;
     List<Post> data;
 
-    public static interface OnItemClickListener{
+    public static interface OnItemClickListener {
         void onItemClick(int pos);
     }
 
-    public void setData(List<Post> data){
+    public void setData(List<Post> data) {
         this.data = data;
         notifyDataSetChanged();
     }
 
-    public UserPostRecyclerAdapter(LayoutInflater inflater, List<Post> data){
+    public UserPostRecyclerAdapter(LayoutInflater inflater, List<Post> data) {
         this.inflater = inflater;
         this.data = data;
     }
 
-    void setOnItemClickListener(OnItemClickListener listener){
+    void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 

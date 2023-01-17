@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -24,6 +25,7 @@ import androidx.navigation.Navigation;
 
 import com.example.tastebuds.databinding.FragmentEditProfileBinding;
 import com.example.tastebuds.model.User;
+import com.squareup.picasso.Picasso;
 
 public class EditProfileFragment extends Fragment {
     FragmentEditProfileBinding binding;
@@ -57,7 +59,7 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onActivityResult(Bitmap result) {
                 if (result != null) {
-                    binding.avatarImg.setImageBitmap(result);
+                    binding.editprofileAvatarImg.setImageBitmap(result);
                     isAvatarSelected = true;
                 }
             }
@@ -66,7 +68,7 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onActivityResult(Uri result) {
                 if (result != null) {
-                    binding.avatarImg.setImageURI(result);
+                    binding.editprofileAvatarImg.setImageURI(result);
                     isAvatarSelected = true;
                 }
             }
@@ -81,7 +83,15 @@ public class EditProfileFragment extends Fragment {
         View view = binding.getRoot();
 
         EditText nicknameEt = view.findViewById(R.id.editprofile_nickname_et);
+        ImageView avatarImage = view.findViewById(R.id.editprofile_avatar_img);
+
         nicknameEt.setText(user.getNickName());
+
+        if (user.getProfileImgUrl() != "") {
+            Picasso.get().load(user.getProfileImgUrl()).placeholder(R.drawable.avatar).into(avatarImage);
+        } else {
+            avatarImage.setImageResource(R.drawable.avatar);
+        }
 
         // todo : save edited profile
 //        binding.saveBtn.setOnClickListener(view1 -> {
@@ -89,9 +99,9 @@ public class EditProfileFragment extends Fragment {
 //            P st = new Student(stId,name,"",false);
 //
 //            if (isAvatarSelected){
-//                binding.avatarImg.setDrawingCacheEnabled(true);
-//                binding.avatarImg.buildDrawingCache();
-//                Bitmap bitmap = ((BitmapDrawable) binding.avatarImg.getDrawable()).getBitmap();
+//                binding.editprofileAvatarImg.setDrawingCacheEnabled(true);
+//                binding.editprofileAvatarImg.buildDrawingCache();
+//                Bitmap bitmap = ((BitmapDrawable) binding.editprofileAvatarImg.getDrawable()).getBitmap();
 //                Model.instance().uploadImage(stId, bitmap, url->{
 //                    if (url != null){
 //                        st.setAvatarUrl(url);

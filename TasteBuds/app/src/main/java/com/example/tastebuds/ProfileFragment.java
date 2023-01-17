@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.tastebuds.databinding.FragmentProfileBinding;
 import com.example.tastebuds.model.Model;
 import com.example.tastebuds.model.User;
+import com.squareup.picasso.Picasso;
 
 //TODO : add user details and real posts from db
 
@@ -32,7 +34,6 @@ public class ProfileFragment extends Fragment {
 
     // todo : delete
     User user = new User("yossiCohen13", "Yossi Cohen", "");
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,9 +65,16 @@ public class ProfileFragment extends Fragment {
         // todo : bind user profile picture
         TextView nicknameTv = view.findViewById(R.id.profile_nickname_tv);
         TextView usernameTv = view.findViewById(R.id.profile_username_tv);
+        ImageView postImage = view.findViewById(R.id.profile_avatar_img);
 
         nicknameTv.setText(user.getNickName());
         usernameTv.setText("@" + user.getUserName());
+
+        if (user.getProfileImgUrl() != "") {
+            Picasso.get().load(user.getProfileImgUrl()).placeholder(R.drawable.avatar).into(postImage);
+        } else {
+            postImage.setImageResource(R.drawable.avatar);
+        }
 
         /*RecyclerView include:
          * 1. Layout Manager

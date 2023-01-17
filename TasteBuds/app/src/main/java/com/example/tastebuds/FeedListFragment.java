@@ -19,6 +19,8 @@ public class FeedListFragment extends Fragment {
     FeedRecyclerAdapter adapter;
     FeedListFragmentViewModel viewModel;
 
+    // todo : get real data for posts
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

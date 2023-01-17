@@ -56,7 +56,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/avatarImg"
+            android:id="@+id/profile_avatar_img"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="5dp"
