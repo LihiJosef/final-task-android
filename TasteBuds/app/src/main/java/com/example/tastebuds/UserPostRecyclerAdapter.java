@@ -36,7 +36,6 @@ class UserPostViewHolder extends RecyclerView.ViewHolder {
         starsTv.setText(post.getStars().toString() + "/5");
         reviewTv.setText(post.getReview());
 
-        // todo : get post picture
         if(post.getImageUrl() != "") {
             Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.blank_img).into(postImage);
         } else {

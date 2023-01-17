@@ -27,15 +27,18 @@ import com.example.tastebuds.databinding.FragmentEditProfileBinding;
 import com.example.tastebuds.model.User;
 import com.squareup.picasso.Picasso;
 
+// todo get real user info
+
 public class EditProfileFragment extends Fragment {
     FragmentEditProfileBinding binding;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
+
+    // todo : delete
     User user = new User("yossiCohen13", "Yossi Cohen" , "");
 
     Boolean isAvatarSelected = false;
 
-    // todo add user info
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -62,7 +62,6 @@ public class ProfileFragment extends Fragment {
 
         View view = binding.getRoot();
 
-        // todo : bind user profile picture
         TextView nicknameTv = view.findViewById(R.id.profile_nickname_tv);
         TextView usernameTv = view.findViewById(R.id.profile_username_tv);
         ImageView postImage = view.findViewById(R.id.profile_avatar_img);
