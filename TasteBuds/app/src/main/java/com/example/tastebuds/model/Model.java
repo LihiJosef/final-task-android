@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 public class Model {
     private static final Model _instance = new Model();
     /*Firebase implement*/
-    private FireBaseModel fireBaseModel = new FireBaseModel();
+    private FirebaseModel fireBaseModel = new FirebaseModel();
 
     public static Model instance(){
         return _instance;
@@ -71,6 +71,9 @@ public class Model {
         userPosts.add(post);
     }
 
+    public void uploadImage(String folderName, String fileName, Bitmap bitmap, Listener<String> listener) {
+        fireBaseModel.uploadImage(folderName, fileName, bitmap, listener);
+    }
 
 
 
