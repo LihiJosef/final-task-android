@@ -28,6 +28,39 @@ public class Post {
         this.review = review;
     }
 
+    static final String ID = "id";
+    static final String USER_NAME = "userName";
+    static final String IMAGE_URL = "imageUrl";
+    static final String LOCATION = "location";
+    static final String STARS = "stars";
+    static final String REVIEW = "review";
+
+    public static Post parseJson(Map<String, Object> studentJson){
+        String id = (String) studentJson.get(ID);
+        String name = (String) studentJson.get(USER_NAME);
+        String imageUrl = (String) studentJson.get(IMAGE_URL);
+        String location = (String) studentJson.get(LOCATION);
+        Integer stars = Integer.parseInt(studentJson.get(STARS).toString());
+        String review = (String) studentJson.get(REVIEW);
+
+        Post st = new Post(id,name,imageUrl,location, stars,review);
+        return st;
+    }
+
+    public Map<String, Object> toJson(){
+        // Create a new user with a first and last name
+        Map<String, Object> studentJson = new HashMap<>();
+        studentJson.put(ID, getId());
+        studentJson.put(USER_NAME, getUserName());
+        studentJson.put(IMAGE_URL, getImageUrl());
+        studentJson.put(LOCATION, getLocation());
+        studentJson.put(STARS, getStars());
+        studentJson.put(REVIEW, getReview());
+
+        return studentJson;
+    }
+
+
     @NonNull
     public String getId() {
         return id;
