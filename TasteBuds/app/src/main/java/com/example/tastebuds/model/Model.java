@@ -74,55 +74,6 @@ public class Model {
     public void uploadImage(String folderName, String fileName, Bitmap bitmap, Listener<String> listener) {
         fireBaseModel.uploadImage(folderName, fileName, bitmap, listener);
     }
-
-
-
-//    public void getAllStudents(Listener<List<Post>> callback){
-//        /*Firebase implement*/
-//        fireBaseModel.getAllStudents(callback);
-//
-//        /*Localdb implement*/
-//        /*
-//        executor.execute(()->{
-//            List<Student> data = localDb.studentDao().getAll();
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            mainHandler.post(()->{
-//                callback.onComplete(data);
-//            });
-//        });
-//         */
-//    }
-
-
-//
-//
-//        public void addPost(Post ps, Listener<Void> listener){
-//        /*Firebase implement*/
-//        fireBaseModel.addStudent(ps, listener);
-//
-//        /*Localdb implement*/
-//        /*
-//        executor.execute(()->{
-//            localDb.studentDao().insertAll(st);
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            mainHandler.post(()->{
-//                listener.onComplete();
-//            });
-//        });
-//         */
-//    }
-
-//    public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {
-//        fireBaseModel.uploadImage(name, bitmap, listener);
-//    }
 }
 
 
