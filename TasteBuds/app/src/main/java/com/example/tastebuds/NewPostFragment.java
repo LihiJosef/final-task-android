@@ -1,6 +1,8 @@
 package com.example.tastebuds;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -12,7 +14,9 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,9 +25,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tastebuds.databinding.FragmentNewPostBinding;
+import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.Post;
+
+import java.util.UUID;
 
 public class NewPostFragment extends Fragment {
     FragmentNewPostBinding binding;
+    ActivityResultLauncher<Void> cameraLauncher;
+    ActivityResultLauncher<String> galleryLauncher;
+    Boolean isImageSelected = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +52,26 @@ public class NewPostFragment extends Fragment {
                 return false;
             }
         }, this, Lifecycle.State.RESUMED);
+
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
+            @Override
+            public void onActivityResult(Bitmap result) {
+                if (result != null) {
+                    binding.postImage.setImageBitmap(result);
+                    isImageSelected = true;
+                }
+            }
+        });
+
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                if (result != null) {
+                    binding.postImage.setImageURI(result);
+                    isImageSelected = true;
+                }
+            }
+        });
     }
 
 
@@ -49,6 +80,55 @@ public class NewPostFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentNewPostBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        View view = binding.getRoot();
+
+        binding.saveBtn.setOnClickListener(view1 -> {
+            String location = binding.locationEt.getText().toString();
+            // TODO: change xml to get stars as number
+            Integer stars = Integer.parseInt(binding.starsEt.getText().toString());
+            String review = binding.reviewEt.getText().toString();
+
+            // TODO: replace id and username with real data
+            //  (after we will learn user authentication in firebase)
+            String id = UUID.randomUUID().toString();
+            String userName = "sivan";
+            String FOLDER_NAME = "postsImages";
+
+            Post post = new Post(id, userName, "" ,location, stars, review);;
+
+            if(isImageSelected) {
+                binding.postImage.setDrawingCacheEnabled(true);
+                binding.postImage.buildDrawingCache();
+                Bitmap bitmap = ((BitmapDrawable) binding.postImage.getDrawable()).getBitmap();
+                Model.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
+                    if (url != null) {
+                        post.setImageUrl(url);
+                        Log.d("POST", "url: " + url);
+                    }
+
+                    Model.instance().addPost(post, (unused) -> {
+                        Navigation.findNavController(view1).popBackStack();
+                    });
+                });
+            } else {
+                Log.d("POST", "url2: " + post.getImageUrl());
+                Model.instance().addPost(post, (unused) -> {
+                    Navigation.findNavController(view1).popBackStack();
+                });
+            }
+        });
+
+        binding.cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack(R.id.newPostFragment, false));
+
+        binding.cameraButton.setOnClickListener(view1 -> {
+            cameraLauncher.launch(null);
+        });
+
+        binding.galleryButton.setOnClickListener(view1 -> {
+            galleryLauncher.launch("image/*");
+        });
+
+
+        return view;
     }
 }

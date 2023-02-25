@@ -33,7 +33,7 @@ public class FirebaseModel {
                 .setPersistenceEnabled(false)
                 .build();
         db.setFirestoreSettings(settings);
-//        storage = FirebaseStorage.getInstance();
+        storage = FirebaseStorage.getInstance();
     }
 
     public void getAllPosts(Model.Listener<List<Post>> callback) {
