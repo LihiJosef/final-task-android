@@ -7,6 +7,8 @@ import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
