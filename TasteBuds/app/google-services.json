@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "265690809082",
+    "project_id": "final-project-android-sl",
+    "storage_bucket": "final-project-android-sl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265690809082:android:318f544256ac636064bf43",
+        "android_client_info": {
+          "package_name": "com.example.tastebuds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265690809082-k7cclv9tk3012c19b4dnsidpk367s6bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOfz0VNPZ114fh8htkCFvXFvhzQwGWFzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265690809082-k7cclv9tk3012c19b4dnsidpk367s6bp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
