@@ -40,7 +40,7 @@ public class Model {
             addUserPost(new Post(""+i, "yossi", "", "blala", 4, "sdsdad"));
         }
 
-        user = new User("yossiCohen13", "Yossi Cohen", "");
+        user = new User("yossiCohen13", "Yossi Cohen", "", "" ,"");
     }
 
     public interface  Listener<T>{

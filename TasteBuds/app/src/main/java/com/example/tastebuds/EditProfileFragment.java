@@ -35,7 +35,7 @@ public class EditProfileFragment extends Fragment {
     ActivityResultLauncher<String> galleryLauncher;
 
     // todo : delete
-    User user = new User("yossiCohen13", "Yossi Cohen" , "");
+    User user = new User("yossiCohen13", "Yossi Cohen" , "", "","");
 
     Boolean isAvatarSelected = false;
 

@@ -33,7 +33,7 @@ public class ProfileFragment extends Fragment {
     UserPostListFragmentViewModel viewModel;
 
     // todo : delete
-    User user = new User("yossiCohen13", "Yossi Cohen", "");
+    User user = new User("yossiCohen13", "Yossi Cohen", "", "", "");
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
