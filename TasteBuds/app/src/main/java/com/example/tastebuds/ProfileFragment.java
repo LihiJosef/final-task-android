@@ -33,7 +33,7 @@ public class ProfileFragment extends Fragment {
     UserPostListFragmentViewModel viewModel;
 
     // todo : delete
-    User user = new User("yossiCohen13", "Yossi Cohen", "");
+    User user = new User("sivan", "Yossi Cohen", "");
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class ProfileFragment extends Fragment {
         // 1
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // 2
-        adapter = new UserPostRecyclerAdapter(getLayoutInflater(), viewModel.getData());
+        adapter = new UserPostRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
         binding.recyclerView.setAdapter(adapter);
 
 //        /*-> Handle row click in the activity*/
@@ -102,6 +102,20 @@ public class ProfileFragment extends Fragment {
 //
 //        // Define global action
 //        NavDirections action = StudentListFragmentDirections.actionGlobalAddStudentFragment();
+
+        binding.progressBar.setVisibility(View.GONE);
+
+        viewModel.getData().observe(getViewLifecycleOwner(),list-> {
+            adapter.setData(list);
+        });
+
+//        Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status-> {
+//            binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
+//        });
+
+//        binding.swipeRefresh.setOnRefreshListener(()-> {
+//            reloadData();
+//        });
 
         return binding.getRoot();
     }
@@ -120,11 +134,6 @@ public class ProfileFragment extends Fragment {
     }
 
     void reloadData() {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        Model.instance().getAllUserPosts((psList) -> {
-            viewModel.setData(psList);
-            adapter.setData(viewModel.getData());
-            binding.progressBar.setVisibility(View.GONE);
-        });
+        Model.instance().refreshAllPosts();
     }
 }
