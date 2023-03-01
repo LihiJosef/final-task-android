@@ -41,7 +41,7 @@ class FeedViewHolder extends RecyclerView.ViewHolder{
         starsTv.setText(post.getStars().toString() + "/5");
         reviewTv.setText(post.getReview());
 
-        if(post.getImageUrl() != "") {
+        if(post.getImageUrl().trim().length() != 0) {
             Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.blank_img).into(postImage);
         } else {
             postImage.setImageResource(R.drawable.blank_img);
@@ -89,6 +89,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedViewHolder>{
 
     @Override
     public int getItemCount() {
+        if (data == null) return 0;
         return data.size();
     }
 }
