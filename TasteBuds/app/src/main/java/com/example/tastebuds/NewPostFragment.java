@@ -88,10 +88,10 @@ public class NewPostFragment extends Fragment {
             Integer stars = Integer.parseInt(binding.starsEt.getText().toString());
             String review = binding.reviewEt.getText().toString();
 
-            // TODO: replace id and username with real data
+            // TODO: replace id and username with real dataadd
             //  (after we will learn user authentication in firebase)
             String id = UUID.randomUUID().toString();
-            String userName = "sivan";
+            String userName = Model.instance().getUser().getUserName();
             String FOLDER_NAME = "postsImages";
 
             Post post = new Post(id, userName, "" ,location, stars, review);;

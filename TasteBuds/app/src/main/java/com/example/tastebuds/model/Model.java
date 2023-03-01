@@ -1,18 +1,9 @@
 package com.example.tastebuds.model;
 
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-
-import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.navigation.Navigation;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -29,7 +20,8 @@ public class Model {
     public static Model instance(){
         return _instance;
     }
-    List<Post> userPosts = new LinkedList<>();
+
+    // todo: Replace with firebase user
     User user;
 
     private  Model(){
@@ -40,12 +32,7 @@ public class Model {
 //            });
 //        }
 
-
-        for(int i=0; i<4; i++){
-            addUserPost(new Post(""+i, "yossi", "", "blala", 4, "sdsdad"));
-        }
-
-        user = new User("yossiCohen13", "Yossi Cohen", "");
+        user = new User("sivan", "Yossi Cohen", "");
     }
 
     public interface  Listener<T>{
@@ -60,14 +47,6 @@ public class Model {
     final public MutableLiveData<LoadingState> EventPostsListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
 
     private LiveData<List<Post>> postsList;
-    public LiveData<List<Post>> getAllPosts(){
-        if(postsList == null) {
-            postsList = localDb.postDao().getAll();
-            refreshAllPosts();
-        }
-        return postsList;
-    }
-
     public void refreshAllPosts(){
         EventPostsListLoadingState.setValue(LoadingState.LOADING);
 
@@ -120,19 +99,16 @@ public class Model {
          */
     }
 
-//    public void getAllPosts(Listener<List<Post>> callback){
-//        Log.d("Post", "get all posts");
-//        /*Firebase implement*/
-//        fireBaseModel.getAllPosts(callback);
-//    }
-
-    public void getAllUserPosts(Listener<List<Post>> callback){
-        Log.d("Post", "get all user posts");
-        callback.onComplete(this.userPosts);
+    public LiveData<List<Post>> getAllPosts(){
+        if(postsList == null) {
+            postsList = localDb.postDao().getAll();
+            refreshAllPosts();
+        }
+        return postsList;
     }
 
-    public User getUser(){
-        return this.user;
+    public LiveData<List<Post>> getAllUserPosts(){
+        return localDb.postDao().getPostsByUser(this.user.getUserName());
     }
 
     public void addPost(Post post,  Listener<Void> listener) {
@@ -142,12 +118,12 @@ public class Model {
         });
     }
 
-    public void addUserPost(Post post) {
-        userPosts.add(post);
-    }
-
     public void uploadImage(String folderName, String fileName, Bitmap bitmap, Listener<String> listener) {
         fireBaseModel.uploadImage(folderName, fileName, bitmap, listener);
+    }
+
+    public User getUser(){
+        return this.user;
     }
 }
 
