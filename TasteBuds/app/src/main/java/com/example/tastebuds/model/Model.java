@@ -32,7 +32,7 @@ public class Model {
 //            });
 //        }
 
-        user = new User("sivan", "Yossi Cohen", "");
+        user = new User("sivan", "Yossi Cohen", "","","");
     }
 
     public interface  Listener<T>{

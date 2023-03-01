@@ -33,7 +33,7 @@ public class ProfileFragment extends Fragment {
     UserPostListFragmentViewModel viewModel;
 
     // todo : delete
-    User user = new User("sivan", "Yossi Cohen", "");
+    User user = new User("yossiCohen13", "Yossi Cohen", "", "", "");
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +62,6 @@ public class ProfileFragment extends Fragment {
 
         View view = binding.getRoot();
 
-        // todo : bind user profile picture
         TextView nicknameTv = view.findViewById(R.id.profile_nickname_tv);
         TextView usernameTv = view.findViewById(R.id.profile_username_tv);
         ImageView postImage = view.findViewById(R.id.profile_avatar_img);
