@@ -29,7 +29,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import java.util.UUID;
 
 public class RegisterActivity extends AppCompatActivity {
-    FirebaseAuth mAuth;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     Boolean isAvatarSelected = false;
     Button registerButton;

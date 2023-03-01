@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     EditText emailET, passwordET;
-    FirebaseAuth mAuth;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     public void onStart() {
@@ -67,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            mAuth = FirebaseAuth.getInstance();
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
