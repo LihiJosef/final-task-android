@@ -3,7 +3,6 @@ package com.example.tastebuds.model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 @Entity
 public class User {
     @PrimaryKey
@@ -63,3 +62,4 @@ public class User {
         this.password = password;
     }
 }
+// TODO : IS NEEDED?
