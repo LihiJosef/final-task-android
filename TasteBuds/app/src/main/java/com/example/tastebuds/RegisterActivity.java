@@ -19,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tastebuds.model.Model;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -29,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     Boolean isAvatarSelected = false;
     Button registerButton;
-    ImageButton galleryButton, cameraButton, backButton;
+    ImageButton galleryButton, cameraButton;
     ImageView imageView;
 
     EditText passwordET, displayNameET, emailET;
@@ -75,6 +78,9 @@ public class RegisterActivity extends AppCompatActivity {
             cameraLauncher.launch(null);
         });
 
+        // Email validation regex pattern
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
         registerButton.setOnClickListener(view -> {
             String displayName = displayNameET.getText().toString();
             String email = emailET.getText().toString();
@@ -88,46 +94,58 @@ public class RegisterActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Log.d("AUTH", "Inserted user");
 
-//                                // User registration successful, update user profile
-//                                FirebaseUser user = mAuth.getCurrentUser();
-//
-//                                // Set display name
-//                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-//                                        .setDisplayName(displayName)
-//                                        .build();
-//                                user.updateProfile(profileUpdates);
-//
-//                                // Set email
-//                                user.updateEmail(email);
-//
-//                                // Set profile image URL
-//                                if (isAvatarSelected) {
-//
-//                                    String id = UUID.randomUUID().toString();
-//                                    String FOLDER_NAME = "profileImages";
-//
-//                                    imageView.setDrawingCacheEnabled(true);
-//                                    imageView.buildDrawingCache();
-//                                    Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-//                                    Model.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
-//                                        if (url != null) {
-//                                            Uri photoUri = Uri.parse(url);
-//                                            UserProfileChangeRequest profilePictureUpdates = new UserProfileChangeRequest.Builder()
-//                                                    .setPhotoUri(photoUri)
-//                                                    .build();
-//                                            user.updateProfile(profilePictureUpdates);
-//                                        }
-//                                    });
-//
-//                                }
+                                // User registration successful, update user profile
+                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                // Set display name
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(displayName)
+                                        .build();
+                                user.updateProfile(profileUpdates);
+
+                                // Set profile image URL
+                                if (isAvatarSelected) {
+
+                                    String id = UUID.randomUUID().toString();
+                                    String FOLDER_NAME = "profileImages";
+
+                                    imageView.setDrawingCacheEnabled(true);
+                                    imageView.buildDrawingCache();
+                                    Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                                    Model.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
+                                        if (url != null) {
+                                            Uri photoUri = Uri.parse(url);
+                                            UserProfileChangeRequest profilePictureUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setPhotoUri(photoUri)
+                                                    .build();
+                                            user.updateProfile(profilePictureUpdates);
+                                        }
+                                    });
+                                }
 
                                 // Go to main app
-                                Intent intent = new Intent(this,MainActivity.class);
+                                Intent intent = new Intent(this, MainActivity.class);
                                 startActivity(intent);
-                            } else {
-                                Log.d("AUTH", "failed - Inserted user");
+                                finish();
 
-//                                Toast.makeText(Register.this, "Authentication failed", Toast.LENGTH_SHORT.show())
+                            } else {
+                                Log.d("AUTH", "failed to Insert user");
+
+                                try {
+                                    throw task.getException();
+                                } catch (FirebaseAuthWeakPasswordException e) {
+                                    Toast.makeText(getApplicationContext(), "Password is too weak", Toast.LENGTH_SHORT).show();
+                                } catch (FirebaseAuthInvalidCredentialsException e) {
+                                    if (!email.matches(emailPattern)) {
+                                        Toast.makeText(getApplicationContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Invalid password format", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (FirebaseAuthUserCollisionException e) {
+                                    Toast.makeText(getApplicationContext(), "Email address is already in use", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
 
