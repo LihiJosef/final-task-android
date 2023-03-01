@@ -37,7 +37,7 @@ public class FeedListFragment extends Fragment {
         // 1
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // 2
-        adapter = new FeedRecyclerAdapter(getLayoutInflater(), viewModel.getData());
+        adapter = new FeedRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
         binding.recyclerView.setAdapter(adapter);
 
 //        /*-> Handle row click in the activity*/
@@ -45,7 +45,7 @@ public class FeedListFragment extends Fragment {
 //            @Override
 //            public void onItemClick(int pos) {
 //                Log.d("TAG", "row click handle in activity " + pos);
-//                Post post = viewModel.getData().get(pos);
+//                Post post = viewModel.getData().getValue().get(pos);
 //                FeedListFragmentDirections.ActionStudentListFragmentToBlueFragment action =  FeedListFragmentDirections.actionStudentListFragmentToBlueFragment(post.getName());
 //                Navigation.findNavController(view).navigate(action);
 //            }
@@ -53,6 +53,20 @@ public class FeedListFragment extends Fragment {
 //
 //        // Define global action
 //        NavDirections action = StudentListFragmentDirections.actionGlobalAddStudentFragment();
+
+        binding.progressBar.setVisibility(View.GONE);
+
+        viewModel.getData().observe(getViewLifecycleOwner(),list-> {
+            adapter.setData(list);
+        });
+
+        Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status-> {
+            binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
+        });
+
+        binding.swipeRefresh.setOnRefreshListener(()-> {
+            reloadData();
+        });
 
         return binding.getRoot();
     }
@@ -64,18 +78,7 @@ public class FeedListFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(FeedListFragmentViewModel.class);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        reloadData();
-    }
-
     void reloadData() {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        Model.instance().getAllPosts((psList) -> {
-            viewModel.setData(psList);
-            adapter.setData(viewModel.getData());
-            binding.progressBar.setVisibility(View.GONE);
-        });
+        Model.instance().refreshAllPosts();
     }
 }
