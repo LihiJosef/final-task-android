@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,9 +35,19 @@ public class RegisterActivity extends AppCompatActivity {
     Button registerButton;
     ImageButton galleryButton, cameraButton;
     ImageView imageView;
-
     EditText passwordET, displayNameET, emailET;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // Go to main app
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
             String email = emailET.getText().toString();
             String password = passwordET.getText().toString();
 
-            if (email != null && email.length() > 0 && password != null && password.length() > 0) {
+            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
                 mAuth = FirebaseAuth.getInstance();
                 mAuth.createUserWithEmailAndPassword(email, password)
