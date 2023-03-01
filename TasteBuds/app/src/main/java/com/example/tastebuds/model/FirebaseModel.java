@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -36,21 +37,41 @@ public class FirebaseModel {
         storage = FirebaseStorage.getInstance();
     }
 
-    public void getAllPosts(Model.Listener<List<Post>> callback) {
-        db.collection("posts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<Post> list = new LinkedList<>();
-                if(task.isSuccessful()){
-                    QuerySnapshot studentsListJson = task.getResult();
-                    for (DocumentSnapshot postsJson: studentsListJson){
-                        Post st = Post.parseJson(postsJson.getData());
-                        list.add(st);
+//    public void getAllPosts(Model.Listener<List<Post>> callback) {
+//        db.collection("posts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                List<Post> list = new LinkedList<>();
+//                if(task.isSuccessful()){
+//                    QuerySnapshot studentsListJson = task.getResult();
+//                    for (DocumentSnapshot postsJson: studentsListJson){
+//                        Post st = Post.parseJson(postsJson.getData());
+//                        list.add(st);
+//                    }
+//                }
+//                callback.onComplete(list);
+//            }
+//        });
+//    };
+
+    public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback) {
+        db.collection("posts")
+                .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since, 0))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<Post> list = new LinkedList<>();
+                        if(task.isSuccessful()){
+                            QuerySnapshot postsListJson = task.getResult();
+                            for (DocumentSnapshot postJson: postsListJson){
+                                Post post = Post.parseJson(postJson.getData());
+                                list.add(post);
+                            }
+                        }
+                        callback.onComplete(list);
                     }
-                }
-                callback.onComplete(list);
-            }
-        });
+                });
     };
 
     public void addPost(Post post, Model.Listener<Void> listener){
