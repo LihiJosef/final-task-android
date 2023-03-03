@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentProfileBinding;
 import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -91,6 +93,18 @@ public class ProfileFragment extends Fragment {
         adapter = new UserPostRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
         binding.recyclerView.setAdapter(adapter);
 
+        /*-> Handle row click in the activity*/
+        adapter.setOnItemClickListener(new UserPostRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Log.d("TAG", "row clicked");
+                Log.d("TAG", "row click handle in activity " + pos);
+                Post post = viewModel.getData().getValue().get(pos);
+                ProfileFragmentDirections.ActionProfileFragmentToEditPostFragment action =  ProfileFragmentDirections.actionProfileFragmentToEditPostFragment(post.getUserName());
+                Navigation.findNavController(view).navigate(action);
+            }
+        });
+
         binding.progressBar.setVisibility(View.GONE);
 
         viewModel.getData().observe(getViewLifecycleOwner(), list -> {
@@ -128,12 +142,6 @@ public class ProfileFragment extends Fragment {
         super.onAttach(context);
 
         viewModel = new ViewModelProvider(this).get(UserPostListFragmentViewModel.class);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        reloadData();
     }
 
     void reloadData() {
