@@ -24,7 +24,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 
 import com.example.tastebuds.databinding.FragmentEditPostBinding;
-import com.example.tastebuds.databinding.FragmentNewPostBinding;
 import com.example.tastebuds.model.Model;
 import com.example.tastebuds.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +39,8 @@ public class EditPostFragment extends Fragment {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
 
+    String title;
+
     public static EditPostFragment newInstance(String editTitle){
         EditPostFragment frag = new EditPostFragment();
         Bundle bundle = new Bundle();
@@ -51,12 +52,17 @@ public class EditPostFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            this.title = bundle.getString("editTitle");
+        }
+
 
         FragmentActivity parentActivity = getActivity();
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menu.removeItem(R.id.newPostFragment);
+                menu.removeItem(R.id.editPostFragment);
             }
 
             @Override
