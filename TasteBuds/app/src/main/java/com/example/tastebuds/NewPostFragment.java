@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import com.example.tastebuds.databinding.FragmentNewPostBinding;
 import com.example.tastebuds.model.Model;
 import com.example.tastebuds.model.Post;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.UUID;
 
@@ -35,6 +37,8 @@ public class NewPostFragment extends Fragment {
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isImageSelected = false;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +95,7 @@ public class NewPostFragment extends Fragment {
             // TODO: replace id and username with real dataadd
             //  (after we will learn user authentication in firebase)
             String id = UUID.randomUUID().toString();
-            String userName = Model.instance().getUser().getUserName();
+            String userName = user.getEmail();
             String FOLDER_NAME = "postsImages";
 
             Post post = new Post(id, userName, "" ,location, stars, review);;

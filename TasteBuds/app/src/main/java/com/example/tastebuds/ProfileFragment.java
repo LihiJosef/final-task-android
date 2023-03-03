@@ -22,7 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentProfileBinding;
 import com.example.tastebuds.model.Model;
-import com.example.tastebuds.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 //TODO : add user details and real posts from db
@@ -32,8 +33,9 @@ public class ProfileFragment extends Fragment {
     UserPostRecyclerAdapter adapter;
     UserPostListFragmentViewModel viewModel;
 
-    // todo : delete
-    User user = new User("yossiCohen13", "Yossi Cohen", "", "", "");
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,11 +68,11 @@ public class ProfileFragment extends Fragment {
         TextView usernameTv = view.findViewById(R.id.profile_username_tv);
         ImageView postImage = view.findViewById(R.id.profile_avatar_img);
 
-        nicknameTv.setText(user.getNickName());
-        usernameTv.setText("@" + user.getUserName());
+        nicknameTv.setText(user.getDisplayName());
+        usernameTv.setText(user.getEmail());
 
-        if (user.getProfileImgUrl() != "") {
-            Picasso.get().load(user.getProfileImgUrl()).placeholder(R.drawable.avatar).into(postImage);
+        if (user.getPhotoUrl() != null) {
+            Picasso.get().load(user.getPhotoUrl()).placeholder(R.drawable.avatar).into(postImage);
         } else {
             postImage.setImageResource(R.drawable.avatar);
         }
@@ -104,7 +106,7 @@ public class ProfileFragment extends Fragment {
 
         binding.progressBar.setVisibility(View.GONE);
 
-        viewModel.getData().observe(getViewLifecycleOwner(),list-> {
+        viewModel.getData().observe(getViewLifecycleOwner(), list -> {
             adapter.setData(list);
         });
 
