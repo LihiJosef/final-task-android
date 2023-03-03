@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +20,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentProfileBinding;
@@ -28,8 +30,6 @@ import com.example.tastebuds.model.Model;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
-
-//TODO : add user details and real posts from db
 
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
@@ -55,10 +55,7 @@ public class ProfileFragment extends Fragment {
                 return false;
             }
         }, this, Lifecycle.State.RESUMED);
-
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,33 +91,11 @@ public class ProfileFragment extends Fragment {
         adapter = new UserPostRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
         binding.recyclerView.setAdapter(adapter);
 
-//        /*-> Handle row click in the activity*/
-//        adapter.setOnItemClickListener(new UserPostRecyclerAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int pos) {
-//                Log.d("TAG", "row click handle in activity " + pos);
-//                Post post = viewModel.getData().get(pos);
-//                UserPostListFragmentDirections.ActionStudentListFragmentToBlueFragment action =  UserPostListFragmentDirections.actionStudentListFragmentToBlueFragment(post.getName());
-//                Navigation.findNavController(view).navigate(action);
-//            }
-//        });
-//
-//        // Define global action
-//        NavDirections action = StudentListFragmentDirections.actionGlobalAddStudentFragment();
-
         binding.progressBar.setVisibility(View.GONE);
 
         viewModel.getData().observe(getViewLifecycleOwner(), list -> {
             adapter.setData(list);
         });
-
-//        Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status-> {
-//            binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
-//        });
-
-//        binding.swipeRefresh.setOnRefreshListener(()-> {
-//            reloadData();
-//        });
 
         ImageView logoutButton = view.findViewById(R.id.profile_logout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +106,17 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
                 ((Activity) getContext()).finish();
+            }
+        });
+
+
+        ImageView editButton = view.findViewById(R.id.profile_edit);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections action = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment();
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(action);
             }
         });
 
@@ -153,5 +139,4 @@ public class ProfileFragment extends Fragment {
     void reloadData() {
         Model.instance().refreshAllPosts();
     }
-
 }
