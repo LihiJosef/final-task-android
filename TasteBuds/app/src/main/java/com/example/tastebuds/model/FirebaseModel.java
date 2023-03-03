@@ -37,25 +37,8 @@ public class FirebaseModel {
         storage = FirebaseStorage.getInstance();
     }
 
-//    public void getAllPosts(Model.Listener<List<Post>> callback) {
-//        db.collection("posts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                List<Post> list = new LinkedList<>();
-//                if(task.isSuccessful()){
-//                    QuerySnapshot studentsListJson = task.getResult();
-//                    for (DocumentSnapshot postsJson: studentsListJson){
-//                        Post st = Post.parseJson(postsJson.getData());
-//                        list.add(st);
-//                    }
-//                }
-//                callback.onComplete(list);
-//            }
-//        });
-//    };
-
     public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback) {
-        db.collection("posts")
+        db.collection(Post.COLLECTION)
                 .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since, 0))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -77,7 +60,7 @@ public class FirebaseModel {
     public void addPost(Post post, Model.Listener<Void> listener){
         Log.d("Post", "postsFireBase: " + post.getUserName());
         // Add a new document with a generated ID
-        db.collection("posts").document(post.getId()).set(post.toJson()).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection(Post.COLLECTION).document(post.getId()).set(post.toJson()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 listener.onComplete(null);
