@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /*Define Navigation UI*/
-        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.main_navhost);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_navhost);
         navController = navHostFragment.getNavController();
         NavigationUI.setupActionBarWithNavController(this, navController);
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 //        getMenuInflater().inflate(R.menu.menu, menu);
 //        return true;
 //    }
-
+    
 //    @Override
 //    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 //        // Define back button behavior

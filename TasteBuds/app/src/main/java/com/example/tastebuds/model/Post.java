@@ -79,16 +79,16 @@ public class Post {
 
     public Map<String, Object> toJson(){
         // Create a new user with a first and last name
-        Map<String, Object> studentJson = new HashMap<>();
-        studentJson.put(ID, getId());
-        studentJson.put(USER_NAME, getUserName());
-        studentJson.put(IMAGE_URL, getImageUrl());
-        studentJson.put(LOCATION, getLocation());
-        studentJson.put(STARS, getStars());
-        studentJson.put(REVIEW, getReview());
-        studentJson.put(LAST_UPDATED, FieldValue.serverTimestamp());
+        Map<String, Object> postJson = new HashMap<>();
+        postJson.put(ID, getId());
+        postJson.put(USER_NAME, getUserName());
+        postJson.put(IMAGE_URL, getImageUrl());
+        postJson.put(LOCATION, getLocation());
+        postJson.put(STARS, getStars());
+        postJson.put(REVIEW, getReview());
+        postJson.put(LAST_UPDATED, FieldValue.serverTimestamp());
 
-        return studentJson;
+        return postJson;
     }
 
 

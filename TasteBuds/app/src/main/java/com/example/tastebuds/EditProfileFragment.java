@@ -24,18 +24,21 @@ import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 
 import com.example.tastebuds.databinding.FragmentEditProfileBinding;
-import com.example.tastebuds.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
+
 
 public class EditProfileFragment extends Fragment {
     FragmentEditProfileBinding binding;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
-    User user = new User("yossiCohen13", "Yossi Cohen" , "");
+
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
 
     Boolean isAvatarSelected = false;
 
-    // todo add user info
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,13 +85,13 @@ public class EditProfileFragment extends Fragment {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        EditText nicknameEt = view.findViewById(R.id.editprofile_nickname_et);
+        EditText displaynameEt = view.findViewById(R.id.editprofile_displayname_et);
         ImageView avatarImage = view.findViewById(R.id.editprofile_avatar_img);
 
-        nicknameEt.setText(user.getNickName());
+        displaynameEt.setText(user.getDisplayName());
 
-        if (user.getProfileImgUrl() != "") {
-            Picasso.get().load(user.getProfileImgUrl()).placeholder(R.drawable.avatar).into(avatarImage);
+        if (user.getPhotoUrl() != null) {
+            Picasso.get().load(user.getPhotoUrl()).placeholder(R.drawable.avatar).into(avatarImage);
         } else {
             avatarImage.setImageResource(R.drawable.avatar);
         }
