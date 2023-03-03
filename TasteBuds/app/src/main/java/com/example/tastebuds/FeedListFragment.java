@@ -19,8 +19,6 @@ public class FeedListFragment extends Fragment {
     FeedRecyclerAdapter adapter;
     FeedListFragmentViewModel viewModel;
 
-    // todo : get real data for posts
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,15 +54,15 @@ public class FeedListFragment extends Fragment {
 
         binding.progressBar.setVisibility(View.GONE);
 
-        viewModel.getData().observe(getViewLifecycleOwner(),list-> {
+        viewModel.getData().observe(getViewLifecycleOwner(), list -> {
             adapter.setData(list);
         });
 
-        Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status-> {
+        Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status -> {
             binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
         });
 
-        binding.swipeRefresh.setOnRefreshListener(()-> {
+        binding.swipeRefresh.setOnRefreshListener(() -> {
             reloadData();
         });
 

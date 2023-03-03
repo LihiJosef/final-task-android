@@ -24,18 +24,18 @@ import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 
 import com.example.tastebuds.databinding.FragmentEditProfileBinding;
-import com.example.tastebuds.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
-// todo get real user info
 
 public class EditProfileFragment extends Fragment {
     FragmentEditProfileBinding binding;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
 
-    // todo : delete
-    User user = new User("yossiCohen13", "Yossi Cohen" , "", "","");
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
 
     Boolean isAvatarSelected = false;
 
@@ -88,10 +88,10 @@ public class EditProfileFragment extends Fragment {
         EditText displaynameEt = view.findViewById(R.id.editprofile_displayname_et);
         ImageView avatarImage = view.findViewById(R.id.editprofile_avatar_img);
 
-        displaynameEt.setText(user.getNickName());
+        displaynameEt.setText(user.getDisplayName());
 
-        if (user.getProfileImgUrl() != "") {
-            Picasso.get().load(user.getProfileImgUrl()).placeholder(R.drawable.avatar).into(avatarImage);
+        if (user.getPhotoUrl() != null) {
+            Picasso.get().load(user.getPhotoUrl()).placeholder(R.drawable.avatar).into(avatarImage);
         } else {
             avatarImage.setImageResource(R.drawable.avatar);
         }

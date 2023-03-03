@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!--    <ScrollView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent">-->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutCompat"
         android:layout_width="match_parent"
@@ -38,11 +30,11 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:indeterminateTint="@color/primary_grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:indeterminateTint="@color/primary_grey"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -53,16 +45,32 @@
         android:orientation="vertical"
         android:paddingBottom="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/profile_avatar_img"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginTop="5dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/avatar" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/profile_avatar_img"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/avatar" />
+
+            <ImageView
+                android:id="@+id/profile_logout"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_baseline_logout_24"
+                app:layout_constraintEnd_toEndOf="@+id/profile_avatar_img"
+                app:layout_constraintTop_toTopOf="@+id/profile_avatar_img" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/profile_nickname_tv"
@@ -79,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="12sp" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
     <!--    </ScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
