@@ -21,6 +21,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -30,8 +32,6 @@ import com.example.tastebuds.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
-
-//TODO : add user details and real posts from db
 
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
@@ -57,10 +57,7 @@ public class ProfileFragment extends Fragment {
                 return false;
             }
         }, this, Lifecycle.State.RESUMED);
-
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,22 +105,11 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-//        // Define global action
-//        NavDirections action = ProfileFragmentDirections.actionProfileFragmentToEditPostFragment();
-
         binding.progressBar.setVisibility(View.GONE);
 
         viewModel.getData().observe(getViewLifecycleOwner(), list -> {
             adapter.setData(list);
         });
-
-//        Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status-> {
-//            binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
-//        });
-
-//        binding.swipeRefresh.setOnRefreshListener(()-> {
-//            reloadData();
-//        });
 
         ImageView logoutButton = view.findViewById(R.id.profile_logout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +123,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
+        ImageView editButton = view.findViewById(R.id.profile_edit);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections action = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment();
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(action);
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -147,14 +144,7 @@ public class ProfileFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(UserPostListFragmentViewModel.class);
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        reloadData();
-//    }
-
     void reloadData() {
         Model.instance().refreshAllPosts();
     }
-
 }

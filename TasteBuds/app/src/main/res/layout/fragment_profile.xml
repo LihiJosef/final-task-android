@@ -70,6 +70,15 @@
                 android:src="@drawable/ic_baseline_logout_24"
                 app:layout_constraintEnd_toEndOf="@+id/profile_avatar_img"
                 app:layout_constraintTop_toTopOf="@+id/profile_avatar_img" />
+
+            <ImageView
+                android:id="@+id/profile_edit"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_baseline_mode_edit_24"
+                app:layout_constraintStart_toStartOf="@+id/profile_avatar_img"
+                app:layout_constraintTop_toTopOf="@+id/profile_avatar_img" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -89,5 +98,4 @@
             android:textSize="12sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-    <!--    </ScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
