@@ -1,7 +1,10 @@
 package com.example.tastebuds;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +39,6 @@ public class ProfileFragment extends Fragment {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,8 @@ public class ProfileFragment extends Fragment {
                 return false;
             }
         }, this, Lifecycle.State.RESUMED);
+
+
     }
 
 
@@ -118,6 +122,18 @@ public class ProfileFragment extends Fragment {
 //            reloadData();
 //        });
 
+        ImageView logoutButton = view.findViewById(R.id.profile_logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+                ((Activity) getContext()).finish();
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -137,4 +153,5 @@ public class ProfileFragment extends Fragment {
     void reloadData() {
         Model.instance().refreshAllPosts();
     }
+
 }
