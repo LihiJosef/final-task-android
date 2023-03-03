@@ -92,8 +92,6 @@ public class NewPostFragment extends Fragment {
             Integer stars = Integer.parseInt(binding.starsEt.getText().toString());
             String review = binding.reviewEt.getText().toString();
 
-            // TODO: replace id and username with real dataadd
-            //  (after we will learn user authentication in firebase)
             String id = UUID.randomUUID().toString();
             String userName = user.getEmail();
             String FOLDER_NAME = "postsImages";
@@ -107,7 +105,6 @@ public class NewPostFragment extends Fragment {
                 Model.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
                     if (url != null) {
                         post.setImageUrl(url);
-                        Log.d("POST", "url: " + url);
                     }
 
                     Model.instance().addPost(post, (unused) -> {
@@ -115,14 +112,13 @@ public class NewPostFragment extends Fragment {
                     });
                 });
             } else {
-                Log.d("POST", "url2: " + post.getImageUrl());
                 Model.instance().addPost(post, (unused) -> {
                     Navigation.findNavController(view1).popBackStack();
                 });
             }
         });
 
-        binding.cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack(R.id.newPostFragment, false));
+        binding.cancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());
 
         binding.cameraButton.setOnClickListener(view1 -> {
             cameraLauncher.launch(null);

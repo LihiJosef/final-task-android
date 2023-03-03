@@ -21,10 +21,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentProfileBinding;
 import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -94,19 +96,20 @@ public class ProfileFragment extends Fragment {
         adapter = new UserPostRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
         binding.recyclerView.setAdapter(adapter);
 
-//        /*-> Handle row click in the activity*/
-//        adapter.setOnItemClickListener(new UserPostRecyclerAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int pos) {
-//                Log.d("TAG", "row click handle in activity " + pos);
-//                Post post = viewModel.getData().get(pos);
-//                UserPostListFragmentDirections.ActionStudentListFragmentToBlueFragment action =  UserPostListFragmentDirections.actionStudentListFragmentToBlueFragment(post.getName());
-//                Navigation.findNavController(view).navigate(action);
-//            }
-//        });
-//
+        /*-> Handle row click in the activity*/
+        adapter.setOnItemClickListener(new UserPostRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Log.d("TAG", "row clicked");
+                Log.d("TAG", "row click handle in activity " + pos);
+                Post post = viewModel.getData().getValue().get(pos);
+                ProfileFragmentDirections.ActionProfileFragmentToEditPostFragment action =  ProfileFragmentDirections.actionProfileFragmentToEditPostFragment(post.getUserName());
+                Navigation.findNavController(view).navigate(action);
+            }
+        });
+
 //        // Define global action
-//        NavDirections action = StudentListFragmentDirections.actionGlobalAddStudentFragment();
+//        NavDirections action = ProfileFragmentDirections.actionProfileFragmentToEditPostFragment();
 
         binding.progressBar.setVisibility(View.GONE);
 
@@ -144,11 +147,11 @@ public class ProfileFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(UserPostListFragmentViewModel.class);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        reloadData();
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        reloadData();
+//    }
 
     void reloadData() {
         Model.instance().refreshAllPosts();
