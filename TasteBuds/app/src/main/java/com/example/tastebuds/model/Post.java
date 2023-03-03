@@ -37,6 +37,7 @@ public class Post {
         this.review = review;
     }
 
+    static final String COLLECTION = "posts";
     static final String ID = "id";
     static final String USER_NAME = "userName";
     static final String IMAGE_URL = "imageUrl";

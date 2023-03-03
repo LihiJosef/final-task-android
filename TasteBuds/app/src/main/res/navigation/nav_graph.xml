@@ -19,12 +19,22 @@
         android:id="@+id/profileFragment"
         android:name="com.example.tastebuds.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_EditPostFragment"
+            app:destination="@id/editPostFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.tastebuds.EditProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_edit_profile" />
-
-
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="com.example.tastebuds.EditPostFragment"
+        android:label="Edit Post">
+    <argument
+        android:name="editTitle"
+        app:argType="string" />
+    </fragment>
 </navigation>

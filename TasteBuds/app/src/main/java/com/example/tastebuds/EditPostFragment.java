@@ -4,6 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -16,14 +23,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.example.tastebuds.databinding.FragmentEditPostBinding;
 import com.example.tastebuds.databinding.FragmentNewPostBinding;
 import com.example.tastebuds.model.Model;
 import com.example.tastebuds.model.Post;
@@ -32,13 +32,21 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.UUID;
 
-public class NewPostFragment extends Fragment {
-    FragmentNewPostBinding binding;
+public class EditPostFragment extends Fragment {
+    FragmentEditPostBinding binding;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isImageSelected = false;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
+
+    public static EditPostFragment newInstance(String editTitle){
+        EditPostFragment frag = new EditPostFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("Title", editTitle);
+        frag.setArguments(bundle);
+        return frag;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +91,7 @@ public class NewPostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentNewPostBinding.inflate(inflater, container, false);
+        binding = FragmentEditPostBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         binding.saveBtn.setOnClickListener(view1 -> {
