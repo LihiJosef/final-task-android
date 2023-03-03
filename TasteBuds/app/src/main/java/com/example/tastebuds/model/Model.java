@@ -42,8 +42,6 @@ public class Model {
         NOT_LOADING
     }
 
-    ;
-
     final public MutableLiveData<LoadingState> EventPostsListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
 
     private LiveData<List<Post>> postsList;
@@ -114,6 +112,13 @@ public class Model {
 
     public void addPost(Post post, Listener<Void> listener) {
         fireBaseModel.addPost(post, (Void) -> {
+            refreshAllPosts();
+            listener.onComplete(null);
+        });
+    }
+
+    public void editPost(Post post, Listener<Void> listener) {
+        fireBaseModel.editPost(post, (Void) -> {
             refreshAllPosts();
             listener.onComplete(null);
         });

@@ -60,12 +60,25 @@ public class FirebaseModel {
     public void addPost(Post post, Model.Listener<Void> listener){
         Log.d("Post", "postsFireBase: " + post.getUserName());
         // Add a new document with a generated ID
-        db.collection(Post.COLLECTION).document(post.getId()).set(post.toJson()).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                listener.onComplete(null);
-            }
-        });
+        db.collection(Post.COLLECTION).document(post.getId()).set(post.toJson())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        listener.onComplete(null);
+                    }
+                });
+    }
+
+    public void editPost(Post post, Model.Listener<Void> listener){
+        Log.d("Post", "edit post : " + post.getUserName());
+        // Add a new document with a generated ID
+        db.collection(Post.COLLECTION).document(post.getId()).update(post.toJson())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        listener.onComplete(null);
+                    }
+                });
     }
 
     void uploadImage(String folderName, String fileName, Bitmap bitmap, Model.Listener<String> listener) {
