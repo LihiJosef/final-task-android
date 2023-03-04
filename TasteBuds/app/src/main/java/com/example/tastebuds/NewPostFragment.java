@@ -93,7 +93,6 @@ public class NewPostFragment extends Fragment {
 
             String id = UUID.randomUUID().toString();
             String userName = user.getEmail();
-            String FOLDER_NAME = "postsImages";
 
             Post post = new Post(id, userName, "" ,location, stars, review);;
 
@@ -101,7 +100,7 @@ public class NewPostFragment extends Fragment {
                 binding.postImage.setDrawingCacheEnabled(true);
                 binding.postImage.buildDrawingCache();
                 Bitmap bitmap = ((BitmapDrawable) binding.postImage.getDrawable()).getBitmap();
-                Model.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
+                Model.instance().uploadPostImage(id, bitmap, url -> {
                     if (url != null) {
                         post.setImageUrl(url);
                     }
