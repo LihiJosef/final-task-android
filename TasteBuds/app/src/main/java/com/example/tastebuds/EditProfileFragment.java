@@ -12,9 +12,7 @@ import android.widget.ImageView;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -77,10 +75,9 @@ public class EditProfileFragment extends Fragment {
             avatarImage.setImageResource(R.drawable.avatar);
         }
 
-        // todo : save edited profile
+        // todo : save edited profile - use firebase actions
 //        binding.saveBtn.setOnClickListener(view1 -> {
 //            String nickName = binding.nameEt.getText().toString();
-//            P st = new Student(stId,name,"",false);
 //
 //            if (isAvatarSelected){
 //                binding.editprofileAvatarImg.setDrawingCacheEnabled(true);
