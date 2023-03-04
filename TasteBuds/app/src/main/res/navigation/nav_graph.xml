@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.tastebuds.EditProfileFragment"
-        android:label="Profile"
+        android:label="Edit Profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/editPostFragment"
