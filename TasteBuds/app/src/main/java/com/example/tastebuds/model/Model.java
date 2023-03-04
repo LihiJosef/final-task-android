@@ -78,10 +78,6 @@ public class Model {
             });
         });
 
-
-
-
-
         /*Localdb implement*/
         /*
         executor.execute(()->{
@@ -122,6 +118,10 @@ public class Model {
             refreshAllPosts();
             listener.onComplete(null);
         });
+    }
+
+    public void uploadPostImage(String fileName, Bitmap bitmap, Listener<String> listener) {
+        fireBaseModel.uploadImage(Post.IMAGE_FOLDER_NAME, fileName, bitmap, listener);
     }
 
     public void uploadImage(String folderName, String fileName, Bitmap bitmap, Listener<String> listener) {

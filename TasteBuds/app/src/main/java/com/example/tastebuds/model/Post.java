@@ -39,6 +39,7 @@ public class Post implements Parcelable {
     }
 
     static final String COLLECTION = "posts";
+    static final String IMAGE_FOLDER_NAME = "postsImages";
     static final String ID = "id";
     static final String USER_NAME = "userName";
     static final String IMAGE_URL = "imageUrl";
