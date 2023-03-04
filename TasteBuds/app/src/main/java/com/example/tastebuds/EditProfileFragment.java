@@ -79,7 +79,6 @@ public class EditProfileFragment extends Fragment {
             avatarImage.setImageResource(R.drawable.avatar);
         }
 
-        // todo : save edited profile - use firebase actions
         binding.saveBtn.setOnClickListener(view1 -> {
             String nickName = binding.editprofileDisplaynameEt.getText().toString();
 
