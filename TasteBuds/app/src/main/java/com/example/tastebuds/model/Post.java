@@ -50,23 +50,23 @@ public class Post implements Parcelable {
     static final String LOCAL_LAST_UPDATED = "student_local_last_update";
 
 
-    public static Post parseJson(Map<String, Object> studentJson){
-        String id = (String) studentJson.get(ID);
-        String name = (String) studentJson.get(USER_NAME);
-        String imageUrl = (String) studentJson.get(IMAGE_URL);
-        String location = (String) studentJson.get(LOCATION);
-        Integer stars = Integer.parseInt(studentJson.get(STARS).toString());
-        String review = (String) studentJson.get(REVIEW);
-        Post st = new Post(id,name,imageUrl,location, stars,review);
+    public static Post parseJson(Map<String, Object> postJson){
+        String id = (String) postJson.get(ID);
+        String name = (String) postJson.get(USER_NAME);
+        String imageUrl = (String) postJson.get(IMAGE_URL);
+        String location = (String) postJson.get(LOCATION);
+        Integer stars = Integer.parseInt(postJson.get(STARS).toString());
+        String review = (String) postJson.get(REVIEW);
+        Post post = new Post(id,name,imageUrl,location, stars,review);
 
         try {
-            Timestamp time = (Timestamp) studentJson.get(LAST_UPDATED);
-            st.setLastUpdated(time.getSeconds());
+            Timestamp time = (Timestamp) postJson.get(LAST_UPDATED);
+            post.setLastUpdated(time.getSeconds());
         } catch (Exception e) {
 
         }
 
-        return st;
+        return post;
     }
 
     public static Long getLocalLastUpdate() {
