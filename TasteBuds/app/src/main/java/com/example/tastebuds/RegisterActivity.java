@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         displayNameET = findViewById(R.id.displayname_edit_text);
         emailET = findViewById(R.id.email_edit_text);
-        passwordET = findViewById(R.id.password_edittext);
+        passwordET = findViewById(R.id.password_edit_text);
 
         ActivityResultLauncher<Void> cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
             @Override
