@@ -114,27 +114,26 @@ public class EditPostFragment extends Fragment {
 
 
         binding.saveBtn.setOnClickListener(view1 -> {
+            String id = post.getId();
+            String userName = post.getUserName();
             String location = binding.locationEt.getText().toString();
+            String imageUrl = post.getImageUrl();
             // TODO: change xml to get stars as number
             Integer stars = Integer.parseInt(binding.starsEt.getText().toString());
             String review = binding.reviewEt.getText().toString();
 
-            String id = UUID.randomUUID().toString();
-            String userName = user.getEmail();
-            String FOLDER_NAME = "postsImages";
-
-            Post post = new Post(id, userName, "" ,location, stars, review);;
+            Post post = new Post(id, userName, imageUrl ,location, stars, review);;
 
             if(isImageSelected) {
                 binding.postImage.setDrawingCacheEnabled(true);
                 binding.postImage.buildDrawingCache();
                 Bitmap bitmap = ((BitmapDrawable) binding.postImage.getDrawable()).getBitmap();
-                Model.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
+                Model.instance().uploadPostImage(id, bitmap, url -> {
                     if (url != null) {
                         post.setImageUrl(url);
                     }
 
-                    Model.instance().addPost(post, (unused) -> {
+                    Model.instance().editPost(post, (unused) -> {
                         Navigation.findNavController(view1).popBackStack();
                     });
                 });
