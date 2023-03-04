@@ -1,5 +1,6 @@
 package com.example.tastebuds;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,12 @@ class UserPostViewHolder extends RecyclerView.ViewHolder {
         locationTv = itemView.findViewById(R.id.userpostlistrow_location_tv);
         starsTv = itemView.findViewById(R.id.userpostlistrow_stars_tv);
         reviewTv = itemView.findViewById(R.id.userpostlistrow_review_tv);
+
+        itemView.setOnClickListener(view -> {
+            int pos = getAdapterPosition();
+            Log.d("TAG", "row click " + pos);
+            listener.onItemClick(pos);
+        });
     }
 
     public void bind(Post post, int pos) {

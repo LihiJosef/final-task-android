@@ -37,7 +37,7 @@
         android:name="com.example.tastebuds.EditPostFragment"
         android:label="Edit Post">
         <argument
-            android:name="editTitle"
-            app:argType="string" />
+            android:name="post"
+            app:argType="com.example.tastebuds.model.Post" />
     </fragment>
 </navigation>

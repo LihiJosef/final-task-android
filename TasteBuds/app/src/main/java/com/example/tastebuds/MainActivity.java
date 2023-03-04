@@ -1,7 +1,9 @@
 package com.example.tastebuds;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -34,17 +36,17 @@ public class MainActivity extends AppCompatActivity {
 //        return true;
 //    }
     
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        // Define back button behavior
-//        if(item.getItemId() == android.R.id.home){
-//            navController.popBackStack();
-//        } else {
-//            // The connection between nav and menu will be automatically by the id
-//            NavigationUI.onNavDestinationSelected(item, navController);
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Define back button behavior
+        if(item.getItemId() == android.R.id.home){
+            navController.popBackStack();
+        } else {
+            // The connection between nav and menu will be automatically by the id
+            NavigationUI.onNavDestinationSelected(item, navController);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
 

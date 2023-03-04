@@ -2,10 +2,11 @@ package com.example.tastebuds.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.tastebuds.MyApplication;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class Post {
+public class Post implements Parcelable {
     @PrimaryKey
     @NonNull
     private String id = "";
@@ -144,4 +145,40 @@ public class Post {
     public Long getLastUpdated() { return this.lastUpdated;}
 
     public void setLastUpdated(Long lastUpdated) { this.lastUpdated = lastUpdated; }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    protected Post (Parcel in) {
+        this.id = in.readString();
+        this.userName = in.readString();
+        this.imageUrl = in.readString();
+        this.location = in.readString();
+        this.stars = in.readInt();
+        this.review = in.readString();
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel source) {
+            return new Post(source);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(userName);
+        dest.writeString(imageUrl);
+        dest.writeString(location);
+        dest.writeInt(stars);
+        dest.writeString(review);
+    }
 }
