@@ -102,9 +102,9 @@ public class EditPostFragment extends Fragment {
         binding.reviewEt.setText(post.getReview());
 
         if (post.getImageUrl().trim().length() != 0) {
-            Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.avatar).into(binding.postImage);
+            Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.ic_baseline_image_24).into(binding.postImage);
         } else {
-            binding.postImage.setImageResource(R.drawable.avatar);
+            binding.postImage.setImageResource(R.drawable.ic_baseline_image_24);
         }
 
 
