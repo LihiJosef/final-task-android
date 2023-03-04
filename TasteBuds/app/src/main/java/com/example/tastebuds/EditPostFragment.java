@@ -10,8 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -22,15 +20,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
-
 import com.example.tastebuds.databinding.FragmentEditPostBinding;
 import com.example.tastebuds.model.Model;
 import com.example.tastebuds.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
-
-import java.util.UUID;
 
 public class EditPostFragment extends Fragment {
     FragmentEditPostBinding binding;
@@ -103,7 +98,7 @@ public class EditPostFragment extends Fragment {
         // set views
         post = EditPostFragmentArgs.fromBundle(getArguments()).getPost();
         binding.locationEt.setText(post.getLocation());
-        binding.starsEt.setText(post.getStars().toString());
+        binding.ratingBar.setRating((float)post.getStars());
         binding.reviewEt.setText(post.getReview());
 
         if (post.getImageUrl().trim().length() != 0) {
@@ -118,8 +113,7 @@ public class EditPostFragment extends Fragment {
             String userName = post.getUserName();
             String location = binding.locationEt.getText().toString();
             String imageUrl = post.getImageUrl();
-            // TODO: change xml to get stars as number
-            Integer stars = Integer.parseInt(binding.starsEt.getText().toString());
+            Integer stars = (int)binding.ratingBar.getRating();
             String review = binding.reviewEt.getText().toString();
 
             Post post = new Post(id, userName, imageUrl ,location, stars, review);;

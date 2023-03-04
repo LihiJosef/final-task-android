@@ -87,8 +87,7 @@ public class NewPostFragment extends Fragment {
 
         binding.saveBtn.setOnClickListener(view1 -> {
             String location = binding.locationEt.getText().toString();
-            // TODO: change xml to get stars as number
-            Integer stars = Integer.parseInt(binding.starsEt.getText().toString());
+            Integer stars = (int)binding.ratingBar.getRating();
             String review = binding.reviewEt.getText().toString();
 
             String id = UUID.randomUUID().toString();
