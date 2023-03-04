@@ -97,9 +97,10 @@ public class ProfileFragment extends Fragment {
         adapter.setOnItemClickListener(new UserPostRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos) {
+                Log.d("TAG", "row clicked");
                 Log.d("TAG", "row click handle in activity " + pos);
                 Post post = viewModel.getData().getValue().get(pos);
-                ProfileFragmentDirections.ActionProfileFragmentToEditPostFragment action =  ProfileFragmentDirections.actionProfileFragmentToEditPostFragment(post.getUserName());
+                ProfileFragmentDirections.ActionProfileFragmentToEditPostFragment action = ProfileFragmentDirections.actionProfileFragmentToEditPostFragment(post);
                 Navigation.findNavController(view).navigate(action);
             }
         });

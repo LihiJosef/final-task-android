@@ -28,6 +28,7 @@ import com.example.tastebuds.model.Model;
 import com.example.tastebuds.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
@@ -38,8 +39,7 @@ public class EditPostFragment extends Fragment {
     Boolean isImageSelected = false;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
-
-    String title;
+    Post post;
 
     public static EditPostFragment newInstance(String editTitle){
         EditPostFragment frag = new EditPostFragment();
@@ -54,7 +54,7 @@ public class EditPostFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if(bundle != null){
-            this.title = bundle.getString("editTitle");
+            this.post = bundle.getParcelable("post");
         }
 
 
@@ -99,6 +99,19 @@ public class EditPostFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentEditPostBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
+        // set views
+        post = EditPostFragmentArgs.fromBundle(getArguments()).getPost();
+        binding.locationEt.setText(post.getLocation());
+        binding.starsEt.setText(post.getStars().toString());
+        binding.reviewEt.setText(post.getReview());
+
+        if (post.getImageUrl() != null) {
+            Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.avatar).into(binding.postImage);
+        } else {
+            binding.postImage.setImageResource(R.drawable.avatar);
+        }
+
 
         binding.saveBtn.setOnClickListener(view1 -> {
             String location = binding.locationEt.getText().toString();
