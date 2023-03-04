@@ -67,12 +67,10 @@ public class ProfileFragment extends Fragment {
 
         View view = binding.getRoot();
 
-        TextView nicknameTv = view.findViewById(R.id.profile_nickname_tv);
-        TextView usernameTv = view.findViewById(R.id.profile_username_tv);
         ImageView postImage = view.findViewById(R.id.profile_avatar_img);
 
-        nicknameTv.setText(user.getDisplayName());
-        usernameTv.setText(user.getEmail());
+        binding.profileNicknameTv.setText(user.getDisplayName());
+        binding.profileUsernameTv.setText(user.getEmail());
 
         if (user.getPhotoUrl() != null) {
             Picasso.get().load(user.getPhotoUrl()).placeholder(R.drawable.avatar).into(postImage);
