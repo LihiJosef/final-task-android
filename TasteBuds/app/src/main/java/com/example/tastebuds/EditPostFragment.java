@@ -106,7 +106,7 @@ public class EditPostFragment extends Fragment {
         binding.starsEt.setText(post.getStars().toString());
         binding.reviewEt.setText(post.getReview());
 
-        if (post.getImageUrl() != null) {
+        if (post.getImageUrl().trim().length() != 0) {
             Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.avatar).into(binding.postImage);
         } else {
             binding.postImage.setImageResource(R.drawable.avatar);
