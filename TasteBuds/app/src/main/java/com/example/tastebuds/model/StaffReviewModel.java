@@ -37,16 +37,17 @@ public class StaffReviewModel {
 
     public LiveData<List<StaffReview>> getStaffReviews() {
         MutableLiveData<List<StaffReview>> data = new MutableLiveData<>();
-        Call<StaffReviewGetResult> call = staffReviewApi.getStaffReviews();
-        call.enqueue(new Callback<StaffReviewGetResult>() {
+        Call<List<StaffReview>> call = staffReviewApi.getStaffReviews();
+        call.enqueue(new Callback<List<StaffReview>>() {
             @Override
-            public void onResponse(Call<StaffReviewGetResult> call, Response<StaffReviewGetResult> response) {
+            public void onResponse(Call<List<StaffReview>> call, Response<List<StaffReview>> response) {
                 if (response.isSuccessful()) {
-                    StaffReviewGetResult res = response.body();
-                    data.setValue(res.getStaffReviews());
+                    Log.d("APIcheck", "----- getStaffReviews happened");
+                    List<StaffReview> res = response.body();
+                    data.setValue(res);
                 } else {
                     try {
-                        Log.d("TAG", "----- getStaffReviews response error" + response.errorBody().string());
+                        Log.d("APIcheck", "----- getStaffReviews response error" + response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -54,13 +55,11 @@ public class StaffReviewModel {
             }
 
             @Override
-            public void onFailure(Call<StaffReviewGetResult> call, Throwable t) {
-                Log.d("TAG", "----- getStaffReviews fail");
-
+            public void onFailure(Call<List<StaffReview>> call, Throwable t) {
+                Log.d("APIcheck", "----- getStaffReviews fail" + t.getMessage());
             }
 
         });
         return data;
     }
-
 }

@@ -2,15 +2,13 @@ package com.example.tastebuds.model;
 
 
 public class StaffReview {
-    String id;
-    String img;
-    String name;
-    String dsc;
-    String rate;
-    String country;
-
-    //            "price": 133.4,
-
+    private String id;
+    private String img;
+    private String name;
+    private String dsc;
+    private double price;
+    private int rate;
+    private String country;
 
     public String getId() {
         return id;
@@ -44,11 +42,11 @@ public class StaffReview {
         this.dsc = dsc;
     }
 
-    public String getRate() {
+    public int getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(int rate) {
         this.rate = rate;
     }
 
@@ -58,5 +56,26 @@ public class StaffReview {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "StaffReview{" +
+                "id='" + id + '\'' +
+                ", img='" + img + '\'' +
+                ", name='" + name + '\'' +
+                ", dsc='" + dsc + '\'' +
+                ", rate=" + rate +
+                ", country='" + country + '\'' +
+                ", price=" + price +
+                '}';
     }
 }
