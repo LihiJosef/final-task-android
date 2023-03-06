@@ -40,4 +40,9 @@
             android:name="post"
             app:argType="com.example.tastebuds.model.Post" />
     </fragment>
+    <fragment
+        android:id="@+id/staffReviewsFragment"
+        android:name="com.example.tastebuds.StaffReviewsFragment"
+        android:label="Staff Reviews"
+        tools:layout="@layout/fragment_staff_reviews" />
 </navigation>
