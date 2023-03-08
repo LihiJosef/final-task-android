@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.tastebuds.EditProfileFragment"
-        android:label="Profile"
+        android:label="Edit Profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/editPostFragment"
@@ -40,4 +40,9 @@
             android:name="post"
             app:argType="com.example.tastebuds.model.Post" />
     </fragment>
+    <fragment
+        android:id="@+id/staffReviewsFragment"
+        android:name="com.example.tastebuds.StaffReviewsFragment"
+        android:label="Staff Reviews"
+        tools:layout="@layout/fragment_staff_reviews" />
 </navigation>

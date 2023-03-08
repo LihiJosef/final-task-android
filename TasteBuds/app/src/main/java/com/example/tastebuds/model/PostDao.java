@@ -12,10 +12,10 @@ import java.util.List;
 // Room 3.Dao - Contains the methods used for accessing the database
 @Dao
 public interface PostDao {
-    @Query("select * from Post")
+    @Query("select * from Post ORDER BY lastUpdated DESC")
     LiveData<List<Post>> getAll();
 
-    @Query("select * from Post where userName = :userName")
+    @Query("select * from Post where userName = :userName ORDER BY lastUpdated DESC")
     LiveData<List<Post>> getPostsByUser(String userName);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

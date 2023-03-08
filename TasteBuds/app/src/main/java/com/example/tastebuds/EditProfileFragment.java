@@ -1,13 +1,14 @@
 package com.example.tastebuds;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -17,9 +18,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.tastebuds.databinding.FragmentEditProfileBinding;
+import com.example.tastebuds.model.Model;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.squareup.picasso.Picasso;
+
+import java.util.UUID;
 
 
 public class EditProfileFragment extends Fragment {
@@ -64,10 +69,9 @@ public class EditProfileFragment extends Fragment {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        EditText displaynameEt = view.findViewById(R.id.editprofile_displayname_et);
         ImageView avatarImage = view.findViewById(R.id.editprofile_avatar_img);
 
-        displaynameEt.setText(user.getDisplayName());
+        binding.editprofileDisplaynameEt.setText(user.getDisplayName());
 
         if (user.getPhotoUrl() != null) {
             Picasso.get().load(user.getPhotoUrl()).placeholder(R.drawable.avatar).into(avatarImage);
@@ -75,28 +79,37 @@ public class EditProfileFragment extends Fragment {
             avatarImage.setImageResource(R.drawable.avatar);
         }
 
-        // todo : save edited profile - use firebase actions
-//        binding.saveBtn.setOnClickListener(view1 -> {
-//            String nickName = binding.nameEt.getText().toString();
-//
-//            if (isAvatarSelected){
-//                binding.editprofileAvatarImg.setDrawingCacheEnabled(true);
-//                binding.editprofileAvatarImg.buildDrawingCache();
-//                Bitmap bitmap = ((BitmapDrawable) binding.editprofileAvatarImg.getDrawable()).getBitmap();
-//                Model.instance().uploadImage(stId, bitmap, url->{
-//                    if (url != null){
-//                        st.setAvatarUrl(url);
-//                    }
-//                    Model.instance().addStudent(st, (unused) -> {
-//                        Navigation.findNavController(view1).popBackStack();
-//                    });
-//                });
-//            }else {
-//                Model.instance().addStudent(st, (unused) -> {
-//                    Navigation.findNavController(view1).popBackStack();
-//                });
-//            }
-//        });
+        binding.saveBtn.setOnClickListener(view1 -> {
+            String nickName = binding.editprofileDisplaynameEt.getText().toString();
+
+            // Set display name
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(nickName)
+                    .build();
+            user.updateProfile(profileUpdates);
+
+            // Set profile image URL
+            if (isAvatarSelected) {
+
+                String id = UUID.randomUUID().toString();
+                String FOLDER_NAME = "profileImages";
+
+                avatarImage.setDrawingCacheEnabled(true);
+                avatarImage.buildDrawingCache();
+                Bitmap bitmap = ((BitmapDrawable) avatarImage.getDrawable()).getBitmap();
+                Model.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
+                    if (url != null) {
+                        Uri photoUri = Uri.parse(url);
+                        UserProfileChangeRequest profilePictureUpdates = new UserProfileChangeRequest.Builder()
+                                .setPhotoUri(photoUri)
+                                .build();
+                        user.updateProfile(profilePictureUpdates);
+                    }
+                });
+            }
+
+            Toast.makeText(getContext(), "Profile information changed successfully!", Toast.LENGTH_SHORT).show();
+        });
 
         binding.cancellBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack(R.id.profileFragment, false));
 
