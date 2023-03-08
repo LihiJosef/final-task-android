@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -94,24 +95,29 @@ public class NewPostFragment extends Fragment {
             String userName = user.getEmail();
 
             Post post = new Post(id, userName, "" ,location, stars, review);;
+            String validationResult = post.validationMessage();
+            if(validationResult.trim() != "") {
+                Log.d("TAG", validationResult);
+                binding.validationEt.setText(validationResult);
+            } else {
+                if (isImageSelected) {
+                    binding.postImage.setDrawingCacheEnabled(true);
+                    binding.postImage.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) binding.postImage.getDrawable()).getBitmap();
+                    PostModel.instance().uploadPostImage(id, bitmap, url -> {
+                        if (url != null) {
+                            post.setImageUrl(url);
+                        }
 
-            if(isImageSelected) {
-                binding.postImage.setDrawingCacheEnabled(true);
-                binding.postImage.buildDrawingCache();
-                Bitmap bitmap = ((BitmapDrawable) binding.postImage.getDrawable()).getBitmap();
-                PostModel.instance().uploadPostImage(id, bitmap, url -> {
-                    if (url != null) {
-                        post.setImageUrl(url);
-                    }
-
+                        PostModel.instance().addPost(post, (unused) -> {
+                            Navigation.findNavController(view1).popBackStack();
+                        });
+                    });
+                } else {
                     PostModel.instance().addPost(post, (unused) -> {
                         Navigation.findNavController(view1).popBackStack();
                     });
-                });
-            } else {
-                PostModel.instance().addPost(post, (unused) -> {
-                    Navigation.findNavController(view1).popBackStack();
-                });
+                }
             }
         });
 

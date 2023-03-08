@@ -147,6 +147,20 @@ public class Post implements Parcelable {
 
     public void setLastUpdated(Long lastUpdated) { this.lastUpdated = lastUpdated; }
 
+    public String validationMessage () {
+        String errorMessage = "";
+
+        if (location.isEmpty()) {
+            errorMessage = "Location must not be empty.";
+        } else if  (review.isEmpty()) {
+            errorMessage = "Review must not be empty.";
+        } else if  (stars < 1) {
+            errorMessage = "Stars should be at list 1";
+        }
+
+        return errorMessage;
+    }
+
     @Override
     public int describeContents() {
         return 0;
