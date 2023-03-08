@@ -37,7 +37,7 @@ public class FirebaseModel {
         storage = FirebaseStorage.getInstance();
     }
 
-    public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback) {
+    public void getAllPostsSince(Long since, PostModel.Listener<List<Post>> callback) {
         db.collection(Post.COLLECTION)
                 .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since, 0))
                 .get()
@@ -57,7 +57,7 @@ public class FirebaseModel {
                 });
     };
 
-    public void addPost(Post post, Model.Listener<Void> listener){
+    public void addPost(Post post, PostModel.Listener<Void> listener){
         Log.d("Post", "postsFireBase: " + post.getUserName());
         // Add a new document with a generated ID
         db.collection(Post.COLLECTION).document(post.getId()).set(post.toJson())
@@ -69,7 +69,7 @@ public class FirebaseModel {
                 });
     }
 
-    public void editPost(Post post, Model.Listener<Void> listener){
+    public void editPost(Post post, PostModel.Listener<Void> listener){
         Log.d("Post", "edit post : " + post.getUserName());
         // Add a new document with a generated ID
         db.collection(Post.COLLECTION).document(post.getId()).update(post.toJson())
@@ -81,7 +81,7 @@ public class FirebaseModel {
                 });
     }
 
-    void uploadImage(String folderName, String fileName, Bitmap bitmap, Model.Listener<String> listener) {
+    void uploadImage(String folderName, String fileName, Bitmap bitmap, PostModel.Listener<String> listener) {
         /*https://firebase.google.com/docs/storage/android/upload-files*/
         StorageReference storageRef = storage.getReference();
         StorageReference imagesRef = storageRef.child(folderName +  "/" + fileName + ".jpg");

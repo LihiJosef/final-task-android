@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +26,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentProfileBinding;
-import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.PostModel;
 import com.example.tastebuds.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -143,6 +142,6 @@ public class ProfileFragment extends Fragment {
     }
 
     void reloadData() {
-        Model.instance().refreshAllPosts();
+        PostModel.instance().refreshAllPosts();
     }
 }

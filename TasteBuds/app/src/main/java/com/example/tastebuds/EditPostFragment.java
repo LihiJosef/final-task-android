@@ -21,7 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 import com.example.tastebuds.databinding.FragmentEditPostBinding;
-import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.PostModel;
 import com.example.tastebuds.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -122,17 +122,17 @@ public class EditPostFragment extends Fragment {
                 binding.postImage.setDrawingCacheEnabled(true);
                 binding.postImage.buildDrawingCache();
                 Bitmap bitmap = ((BitmapDrawable) binding.postImage.getDrawable()).getBitmap();
-                Model.instance().uploadPostImage(id, bitmap, url -> {
+                PostModel.instance().uploadPostImage(id, bitmap, url -> {
                     if (url != null) {
                         post.setImageUrl(url);
                     }
 
-                    Model.instance().editPost(post, (unused) -> {
+                    PostModel.instance().editPost(post, (unused) -> {
                         Navigation.findNavController(view1).popBackStack();
                     });
                 });
             } else {
-                Model.instance().addPost(post, (unused) -> {
+                PostModel.instance().addPost(post, (unused) -> {
                     Navigation.findNavController(view1).popBackStack();
                 });
             }

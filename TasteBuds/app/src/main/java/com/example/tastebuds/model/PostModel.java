@@ -11,22 +11,22 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /*Singelton model*/
-public class Model {
-    private static final Model _instance = new Model();
+public class PostModel {
+    private static final PostModel _instance = new PostModel();
     /*Firebase implement*/
     private FirebaseModel fireBaseModel = new FirebaseModel();
     /*Localdb implement*/
     private Executor executor = Executors.newSingleThreadExecutor();
     AppLocalDbRepository localDb = AppLocalDb.getAppDb();
 
-    public static Model instance() {
+    public static PostModel instance() {
         return _instance;
     }
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user;
 
-    private Model() {
+    private PostModel() {
         user = mAuth.getCurrentUser();
     }
 

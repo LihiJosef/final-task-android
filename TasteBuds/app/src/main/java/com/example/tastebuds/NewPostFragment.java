@@ -24,7 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tastebuds.databinding.FragmentNewPostBinding;
-import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.PostModel;
 import com.example.tastebuds.model.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -99,17 +99,17 @@ public class NewPostFragment extends Fragment {
                 binding.postImage.setDrawingCacheEnabled(true);
                 binding.postImage.buildDrawingCache();
                 Bitmap bitmap = ((BitmapDrawable) binding.postImage.getDrawable()).getBitmap();
-                Model.instance().uploadPostImage(id, bitmap, url -> {
+                PostModel.instance().uploadPostImage(id, bitmap, url -> {
                     if (url != null) {
                         post.setImageUrl(url);
                     }
 
-                    Model.instance().addPost(post, (unused) -> {
+                    PostModel.instance().addPost(post, (unused) -> {
                         Navigation.findNavController(view1).popBackStack();
                     });
                 });
             } else {
-                Model.instance().addPost(post, (unused) -> {
+                PostModel.instance().addPost(post, (unused) -> {
                     Navigation.findNavController(view1).popBackStack();
                 });
             }

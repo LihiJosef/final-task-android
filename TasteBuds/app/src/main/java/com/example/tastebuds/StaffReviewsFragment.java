@@ -11,9 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.tastebuds.databinding.FragmentFeedListBinding;
 import com.example.tastebuds.databinding.FragmentStaffReviewsBinding;
-import com.example.tastebuds.model.Model;
 import com.example.tastebuds.model.StaffReviewModel;
 
 public class StaffReviewsFragment extends Fragment {
