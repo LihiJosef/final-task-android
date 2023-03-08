@@ -8,26 +8,21 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.tastebuds.model.Post;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 // 3
-class FeedViewHolder extends RecyclerView.ViewHolder{
+class FeedViewHolder extends GenericViewHolder<Post>{
     ImageView userImage;
     TextView userTv;
     ImageView postImage;
     TextView locationTv;
     TextView reviewTv;
     RatingBar starsRB;
-    List<Post> data;
 
-    public FeedViewHolder(@NonNull View itemView, FeedRecyclerAdapter.OnItemClickListener listener, List<Post> data) {
+    public FeedViewHolder(@NonNull View itemView) {
         super(itemView);
-        this.data = data;
         userImage = itemView.findViewById(R.id.feedlistrow_user_img);
         userTv = itemView.findViewById(R.id.feedlistrow_user_tv);
         postImage = itemView.findViewById(R.id.feedlistrow_post_img);
@@ -36,6 +31,7 @@ class FeedViewHolder extends RecyclerView.ViewHolder{
         starsRB = itemView.findViewById(R.id.feedlistrow_ratingbar);
     }
 
+    @Override
     public void bind(Post post, int pos){
         userTv.setText(post.getUserName());
         locationTv.setText(post.getLocation());
@@ -50,28 +46,9 @@ class FeedViewHolder extends RecyclerView.ViewHolder{
     }
 }
 
-public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedViewHolder>{
-    /*Set listener to catch view row click and handle in the activity ->*/
-    OnItemClickListener listener;
-    LayoutInflater inflater;
-    List<Post> data;
-
-    public static interface OnItemClickListener{
-        void onItemClick(int pos);
-    }
-
-    public void setData(List<Post> data){
-        this.data = data;
-        notifyDataSetChanged();
-    }
-
+public class FeedRecyclerAdapter extends GenericRecyclerAdapter<Post, FeedViewHolder>{
     public FeedRecyclerAdapter(LayoutInflater inflater, List<Post> data){
-        this.inflater = inflater;
-        this.data = data;
-    }
-
-    void setOnItemClickListener(OnItemClickListener listener){
-        this.listener = listener;
+        super(inflater, data);
     }
 
     @NonNull
@@ -79,18 +56,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedViewHolder>{
     public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // 4
         View view = inflater.inflate(R.layout.feed_list_row, parent, false);
-        return new FeedViewHolder(view, listener, data);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
-        Post post = data.get(position);
-        holder.bind(post, position);
-    }
-
-    @Override
-    public int getItemCount() {
-        if (data == null) return 0;
-        return data.size();
+        return new FeedViewHolder(view);
     }
 }
