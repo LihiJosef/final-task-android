@@ -6,27 +6,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import com.example.tastebuds.model.StaffReview;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 // 3
-class StaffViewHolder extends RecyclerView.ViewHolder{
+class StaffViewHolder extends GenericViewHolder<StaffReview>{
     ImageView userImage;
     TextView userTv;
     ImageView postImage;
     TextView locationTv;
     TextView reviewTv;
     RatingBar starsRB;
-    List<StaffReview> data;
 
-    public StaffViewHolder(@NonNull View itemView, StaffRecyclerAdapter.OnItemClickListener listener, List<StaffReview> data) {
+    public StaffViewHolder(@NonNull View itemView) {
         super(itemView);
-        this.data = data;
         userImage = itemView.findViewById(R.id.feedlistrow_user_img);
         userTv = itemView.findViewById(R.id.feedlistrow_user_tv);
         postImage = itemView.findViewById(R.id.feedlistrow_post_img);
@@ -35,6 +31,7 @@ class StaffViewHolder extends RecyclerView.ViewHolder{
         starsRB = itemView.findViewById(R.id.feedlistrow_ratingbar);
     }
 
+    @Override
     public void bind(StaffReview staffReview, int pos){
 
         userTv.setText(staffReview.getName());
@@ -50,28 +47,12 @@ class StaffViewHolder extends RecyclerView.ViewHolder{
     }
 }
 
-public class StaffRecyclerAdapter extends RecyclerView.Adapter<StaffViewHolder>{
+public class StaffRecyclerAdapter extends GenericRecyclerAdapter<StaffReview, StaffViewHolder>{
     /*Set listener to catch view row click and handle in the activity ->*/
-    OnItemClickListener listener;
-    LayoutInflater inflater;
-    List<StaffReview> data;
-
-    public static interface OnItemClickListener{
-        void onItemClick(int pos);
-    }
-
-    public void setData(List<StaffReview> data){
-        this.data = data;
-        notifyDataSetChanged();
-    }
+//    LayoutInflater inflater;
 
     public StaffRecyclerAdapter(LayoutInflater inflater, List<StaffReview> data){
-        this.inflater = inflater;
-        this.data = data;
-    }
-
-    void setOnItemClickListener(OnItemClickListener listener){
-        this.listener = listener;
+        super(inflater, data);
     }
 
     @NonNull
@@ -79,18 +60,6 @@ public class StaffRecyclerAdapter extends RecyclerView.Adapter<StaffViewHolder>{
     public StaffViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // 4
         View view = inflater.inflate(R.layout.feed_list_row, parent, false);
-        return new StaffViewHolder(view, listener, data);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull StaffViewHolder holder, int position) {
-        StaffReview staffReview = data.get(position);
-        holder.bind(staffReview, position);
-    }
-
-    @Override
-    public int getItemCount() {
-        if (data == null) return 0;
-        return data.size();
+        return new StaffViewHolder(view);
     }
 }
