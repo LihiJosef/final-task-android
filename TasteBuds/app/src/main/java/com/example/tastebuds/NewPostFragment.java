@@ -98,6 +98,7 @@ public class NewPostFragment extends Fragment {
             String validationResult = post.isPostValid();
             if(validationResult.trim() != "") {
                 Log.d("TAG", validationResult);
+                binding.validationEt.setText(validationResult);
             } else {
                 if (isImageSelected) {
                     binding.postImage.setDrawingCacheEnabled(true);
