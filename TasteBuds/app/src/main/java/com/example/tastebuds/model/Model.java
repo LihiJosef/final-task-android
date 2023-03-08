@@ -2,13 +2,10 @@ package com.example.tastebuds.model;
 
 import android.graphics.Bitmap;
 import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -77,21 +74,6 @@ public class Model {
                 EventPostsListLoadingState.postValue(LoadingState.NOT_LOADING);
             });
         });
-
-        /*Localdb implement*/
-        /*
-        executor.execute(()->{
-            List<Student> data = localDb.studentDao().getAll();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            mainHandler.post(()->{
-                callback.onComplete(data);
-            });
-        });
-         */
     }
 
     public LiveData<List<Post>> getAllPosts() {
@@ -127,10 +109,6 @@ public class Model {
     public void uploadImage(String folderName, String fileName, Bitmap bitmap, Listener<String> listener) {
         fireBaseModel.uploadImage(folderName, fileName, bitmap, listener);
     }
-
-//    public User getUser() {
-//        return this.user;
-//    }
 }
 
 

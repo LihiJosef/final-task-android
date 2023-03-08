@@ -12,18 +12,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentFeedListBinding;
+import com.example.tastebuds.databinding.FragmentStaffReviewsBinding;
 import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.StaffReviewModel;
 
 public class StaffReviewsFragment extends Fragment {
-    FragmentFeedListBinding binding;
+    FragmentStaffReviewsBinding binding;
     StaffRecyclerAdapter adapter;
-    StaffListFragmentViewModel viewModel;
+    StaffReviewsFragmentViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentFeedListBinding.inflate(inflater, container, false);
+        binding = FragmentStaffReviewsBinding.inflate(inflater, container, false);
 
         /*RecyclerView include:
          * 1. Layout Manager
@@ -38,28 +40,14 @@ public class StaffReviewsFragment extends Fragment {
         adapter = new StaffRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
         binding.recyclerView.setAdapter(adapter);
 
-//        /*-> Handle row click in the activity*/
-//        adapter.setOnItemClickListener(new FeedRecyclerAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int pos) {
-//                Log.d("TAG", "row click handle in activity " + pos);
-//                Post post = viewModel.getData().getValue().get(pos);
-//                FeedListFragmentDirections.ActionStudentListFragmentToBlueFragment action =  FeedListFragmentDirections.actionStudentListFragmentToBlueFragment(post.getName());
-//                Navigation.findNavController(view).navigate(action);
-//            }
-//        });
-//
-//        // Define global action
-//        NavDirections action = StudentListFragmentDirections.actionGlobalAddStudentFragment();
-
         binding.progressBar.setVisibility(View.GONE);
 
         viewModel.getData().observe(getViewLifecycleOwner(), list -> {
             adapter.setData(list);
         });
 
-        Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status -> {
-            binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
+        StaffReviewModel.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status -> {
+            binding.swipeRefresh.setRefreshing(status == StaffReviewModel.LoadingState.LOADING);
         });
 
         binding.swipeRefresh.setOnRefreshListener(() -> {
@@ -73,10 +61,10 @@ public class StaffReviewsFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        viewModel = new ViewModelProvider(this).get(StaffListFragmentViewModel.class);
+        viewModel = new ViewModelProvider(this).get(StaffReviewsFragmentViewModel.class);
     }
 
     void reloadData() {
-        Model.instance().refreshAllPosts();
+        StaffReviewModel.instance().getStaffReviews();
     }
 }

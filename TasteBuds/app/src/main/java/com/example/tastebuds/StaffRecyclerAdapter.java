@@ -48,9 +48,6 @@ class StaffViewHolder extends GenericViewHolder<StaffReview>{
 }
 
 public class StaffRecyclerAdapter extends GenericRecyclerAdapter<StaffReview, StaffViewHolder>{
-    /*Set listener to catch view row click and handle in the activity ->*/
-//    LayoutInflater inflater;
-
     public StaffRecyclerAdapter(LayoutInflater inflater, List<StaffReview> data){
         super(inflater, data);
     }

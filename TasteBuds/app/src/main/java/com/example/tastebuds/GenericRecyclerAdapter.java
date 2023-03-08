@@ -17,17 +17,8 @@ abstract class GenericViewHolder<T> extends RecyclerView.ViewHolder{
 
 public abstract class GenericRecyclerAdapter<T, VH extends GenericViewHolder<T>> extends RecyclerView.Adapter<VH>{
     /*Set listener to catch view row click and handle in the activity ->*/
-    OnItemClickListener listener;
     LayoutInflater inflater;
     List<T> data;
-
-    void setOnItemClickListener(OnItemClickListener listener){
-        this.listener = listener;
-    }
-
-    public static interface OnItemClickListener{
-        void onItemClick(int pos);
-    }
 
     public void setData(List<T> data){
         this.data = data;
