@@ -18,7 +18,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.PostModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
@@ -123,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     imageView.setDrawingCacheEnabled(true);
                                     imageView.buildDrawingCache();
                                     Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                                    Model.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
+                                    PostModel.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
                                         if (url != null) {
                                             Uri photoUri = Uri.parse(url);
                                             UserProfileChangeRequest profilePictureUpdates = new UserProfileChangeRequest.Builder()

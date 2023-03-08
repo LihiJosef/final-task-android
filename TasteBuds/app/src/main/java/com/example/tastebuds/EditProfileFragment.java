@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.tastebuds.databinding.FragmentEditProfileBinding;
-import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.PostModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -97,7 +97,7 @@ public class EditProfileFragment extends Fragment {
                 avatarImage.setDrawingCacheEnabled(true);
                 avatarImage.buildDrawingCache();
                 Bitmap bitmap = ((BitmapDrawable) avatarImage.getDrawable()).getBitmap();
-                Model.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
+                PostModel.instance().uploadImage(FOLDER_NAME, id, bitmap, url -> {
                     if (url != null) {
                         Uri photoUri = Uri.parse(url);
                         UserProfileChangeRequest profilePictureUpdates = new UserProfileChangeRequest.Builder()

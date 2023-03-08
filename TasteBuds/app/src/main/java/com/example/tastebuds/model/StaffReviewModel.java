@@ -18,7 +18,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StaffReviewModel {
-    final public static StaffReviewModel instance = new StaffReviewModel();
+    private static final StaffReviewModel _instance = new StaffReviewModel();
+    public static StaffReviewModel instance() {
+        return _instance;
+    }
 
     final String BASE_URL = "https://free-food-menus-api-production.up.railway.app/";
     Retrofit retrofit;
@@ -35,7 +38,16 @@ public class StaffReviewModel {
         staffReviewApi = retrofit.create(StaffReviewApi.class);
     }
 
+    public enum LoadingState {
+        LOADING,
+        NOT_LOADING
+    }
+
+    final public MutableLiveData<StaffReviewModel.LoadingState> EventPostsListLoadingState = new MutableLiveData<StaffReviewModel.LoadingState>(LoadingState.LOADING);
+
     public LiveData<List<StaffReview>> getStaffReviews() {
+        EventPostsListLoadingState.setValue(StaffReviewModel.LoadingState.LOADING);
+        Log.d("TAG", "LOADING");
         MutableLiveData<List<StaffReview>> data = new MutableLiveData<>();
         Call<List<StaffReview>> call = staffReviewApi.getStaffReviews();
         call.enqueue(new Callback<List<StaffReview>>() {
@@ -52,14 +64,18 @@ public class StaffReviewModel {
                         e.printStackTrace();
                     }
                 }
+
+                EventPostsListLoadingState.postValue(StaffReviewModel.LoadingState.NOT_LOADING);
             }
 
             @Override
             public void onFailure(Call<List<StaffReview>> call, Throwable t) {
                 Log.d("APIcheck", "----- getStaffReviews fail" + t.getMessage());
+                EventPostsListLoadingState.postValue(StaffReviewModel.LoadingState.NOT_LOADING);
             }
-
         });
+
+        Log.d("TAG", "END LOADING!!!!!!");
         return data;
     }
 }

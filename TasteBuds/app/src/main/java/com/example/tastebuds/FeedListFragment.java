@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentFeedListBinding;
-import com.example.tastebuds.model.Model;
+import com.example.tastebuds.model.PostModel;
 
 public class FeedListFragment extends Fragment {
     FragmentFeedListBinding binding;
@@ -58,8 +58,8 @@ public class FeedListFragment extends Fragment {
             adapter.setData(list);
         });
 
-        Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status -> {
-            binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
+        PostModel.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status -> {
+            binding.swipeRefresh.setRefreshing(status == PostModel.LoadingState.LOADING);
         });
 
         binding.swipeRefresh.setOnRefreshListener(() -> {
@@ -77,6 +77,6 @@ public class FeedListFragment extends Fragment {
     }
 
     void reloadData() {
-        Model.instance().refreshAllPosts();
+        PostModel.instance().refreshAllPosts();
     }
 }

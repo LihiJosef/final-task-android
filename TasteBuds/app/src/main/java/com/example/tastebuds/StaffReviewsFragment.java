@@ -1,65 +1,68 @@
 package com.example.tastebuds;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentStaffReviewsBinding;
-import com.example.tastebuds.model.StaffReview;
 import com.example.tastebuds.model.StaffReviewModel;
-
-import java.util.List;
 
 public class StaffReviewsFragment extends Fragment {
     FragmentStaffReviewsBinding binding;
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        FragmentActivity parentActivity = getActivity();
-        parentActivity.addMenuProvider(new MenuProvider() {
-            @Override
-            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menu.removeItem(R.id.staffReviewsFragment);
-            }
-
-            @Override
-            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                return false;
-            }
-        }, this, Lifecycle.State.RESUMED);
-    }
+    StaffRecyclerAdapter adapter;
+    StaffReviewsFragmentViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentStaffReviewsBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
 
-        LiveData<List<StaffReview>> data = StaffReviewModel.instance.getStaffReviews();
+        /*RecyclerView include:
+         * 1. Layout Manager
+         * 2. Adapter
+         * 3. ViewHolder
+         * 4. Row View*/
+        binding.recyclerView.setHasFixedSize(true);
 
-        // TODO : use the data to create review list (need to create recycler view shit)
-        data.observe(getViewLifecycleOwner(), reviews->{
-            Log.d("APIcheck", "Staff reviews changed: " + reviews.get(0).toString());
+        // 1
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // 2
+        adapter = new StaffRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
+        binding.recyclerView.setAdapter(adapter);
 
+        binding.progressBar.setVisibility(View.GONE);
+
+        viewModel.getData().observe(getViewLifecycleOwner(), list -> {
+            adapter.setData(list);
         });
 
-        return view;
+        StaffReviewModel.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status -> {
+            binding.swipeRefresh.setRefreshing(status == StaffReviewModel.LoadingState.LOADING);
+        });
+
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            reloadData();
+        });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        viewModel = new ViewModelProvider(this).get(StaffReviewsFragmentViewModel.class);
+    }
+
+    void reloadData() {
+        StaffReviewModel.instance().getStaffReviews();
     }
 }

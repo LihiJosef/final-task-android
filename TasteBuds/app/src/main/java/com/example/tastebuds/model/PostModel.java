@@ -2,34 +2,31 @@ package com.example.tastebuds.model;
 
 import android.graphics.Bitmap;
 import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /*Singelton model*/
-public class Model {
-    private static final Model _instance = new Model();
+public class PostModel {
+    private static final PostModel _instance = new PostModel();
     /*Firebase implement*/
     private FirebaseModel fireBaseModel = new FirebaseModel();
     /*Localdb implement*/
     private Executor executor = Executors.newSingleThreadExecutor();
     AppLocalDbRepository localDb = AppLocalDb.getAppDb();
 
-    public static Model instance() {
+    public static PostModel instance() {
         return _instance;
     }
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user;
 
-    private Model() {
+    private PostModel() {
         user = mAuth.getCurrentUser();
     }
 
@@ -77,21 +74,6 @@ public class Model {
                 EventPostsListLoadingState.postValue(LoadingState.NOT_LOADING);
             });
         });
-
-        /*Localdb implement*/
-        /*
-        executor.execute(()->{
-            List<Student> data = localDb.studentDao().getAll();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            mainHandler.post(()->{
-                callback.onComplete(data);
-            });
-        });
-         */
     }
 
     public LiveData<List<Post>> getAllPosts() {
@@ -127,10 +109,6 @@ public class Model {
     public void uploadImage(String folderName, String fileName, Bitmap bitmap, Listener<String> listener) {
         fireBaseModel.uploadImage(folderName, fileName, bitmap, listener);
     }
-
-//    public User getUser() {
-//        return this.user;
-//    }
 }
 
 
