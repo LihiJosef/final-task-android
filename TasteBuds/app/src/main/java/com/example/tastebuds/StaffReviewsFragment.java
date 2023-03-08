@@ -1,65 +1,82 @@
 package com.example.tastebuds;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.tastebuds.databinding.FragmentStaffReviewsBinding;
-import com.example.tastebuds.model.StaffReview;
-import com.example.tastebuds.model.StaffReviewModel;
-
-import java.util.List;
+import com.example.tastebuds.databinding.FragmentFeedListBinding;
+import com.example.tastebuds.model.Model;
 
 public class StaffReviewsFragment extends Fragment {
-    FragmentStaffReviewsBinding binding;
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        FragmentActivity parentActivity = getActivity();
-        parentActivity.addMenuProvider(new MenuProvider() {
-            @Override
-            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menu.removeItem(R.id.staffReviewsFragment);
-            }
-
-            @Override
-            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                return false;
-            }
-        }, this, Lifecycle.State.RESUMED);
-    }
+    FragmentFeedListBinding binding;
+    StaffRecyclerAdapter adapter;
+    StaffListFragmentViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentStaffReviewsBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
+        binding = FragmentFeedListBinding.inflate(inflater, container, false);
 
-        LiveData<List<StaffReview>> data = StaffReviewModel.instance.getStaffReviews();
+        /*RecyclerView include:
+         * 1. Layout Manager
+         * 2. Adapter
+         * 3. ViewHolder
+         * 4. Row View*/
+        binding.recyclerView.setHasFixedSize(true);
 
-        // TODO : use the data to create review list (need to create recycler view shit)
-        data.observe(getViewLifecycleOwner(), reviews->{
-            Log.d("APIcheck", "Staff reviews changed: " + reviews.get(0).toString());
+        // 1
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // 2
+        adapter = new StaffRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
+        binding.recyclerView.setAdapter(adapter);
 
+//        /*-> Handle row click in the activity*/
+//        adapter.setOnItemClickListener(new FeedRecyclerAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int pos) {
+//                Log.d("TAG", "row click handle in activity " + pos);
+//                Post post = viewModel.getData().getValue().get(pos);
+//                FeedListFragmentDirections.ActionStudentListFragmentToBlueFragment action =  FeedListFragmentDirections.actionStudentListFragmentToBlueFragment(post.getName());
+//                Navigation.findNavController(view).navigate(action);
+//            }
+//        });
+//
+//        // Define global action
+//        NavDirections action = StudentListFragmentDirections.actionGlobalAddStudentFragment();
+
+        binding.progressBar.setVisibility(View.GONE);
+
+        viewModel.getData().observe(getViewLifecycleOwner(), list -> {
+            adapter.setData(list);
         });
 
-        return view;
+        Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(), status -> {
+            binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
+        });
+
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            reloadData();
+        });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        viewModel = new ViewModelProvider(this).get(StaffListFragmentViewModel.class);
+    }
+
+    void reloadData() {
+        Model.instance().refreshAllPosts();
     }
 }
