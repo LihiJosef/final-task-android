@@ -6,26 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.tastebuds.model.Post;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 // 3
-class UserPostViewHolder extends RecyclerView.ViewHolder {
+class UserPostViewHolder extends GenericViewHolder<Post> {
     ImageView postImage;
     TextView locationTv;
     TextView starsTv;
     TextView reviewTv;
-    List<Post> data;
 
-    public UserPostViewHolder(@NonNull View itemView, UserPostRecyclerAdapter.OnItemClickListener listener, List<Post> data) {
+    public UserPostViewHolder(@NonNull View itemView, UserPostRecyclerAdapter.OnItemClickListener listener) {
         super(itemView);
-        this.data = data;
         postImage = itemView.findViewById(R.id.userpostlistrow_post_img);
         locationTv = itemView.findViewById(R.id.userpostlistrow_location_tv);
         starsTv = itemView.findViewById(R.id.userpostlistrow_stars_tv);
@@ -51,24 +45,16 @@ class UserPostViewHolder extends RecyclerView.ViewHolder {
     }
 }
 
-public class UserPostRecyclerAdapter extends RecyclerView.Adapter<UserPostViewHolder> {
-    /*Set listener to catch view row click and handle in the activity ->*/
+public class UserPostRecyclerAdapter extends GenericRecyclerAdapter<Post, UserPostViewHolder> {
+    public UserPostRecyclerAdapter(LayoutInflater inflater, List<Post> data) {
+        super(inflater, data);
+    }
+
+    /*Set listener to catch view row click and handle in the fragment ->*/
     OnItemClickListener listener;
-    LayoutInflater inflater;
-    List<Post> data;
 
     public static interface OnItemClickListener {
         void onItemClick(int pos);
-    }
-
-    public void setData(List<Post> data) {
-        this.data = data;
-        notifyDataSetChanged();
-    }
-
-    public UserPostRecyclerAdapter(LayoutInflater inflater, List<Post> data) {
-        this.inflater = inflater;
-        this.data = data;
     }
 
     void setOnItemClickListener(OnItemClickListener listener) {
@@ -80,18 +66,6 @@ public class UserPostRecyclerAdapter extends RecyclerView.Adapter<UserPostViewHo
     public UserPostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // 4
         View view = inflater.inflate(R.layout.userpost_list_row, parent, false);
-        return new UserPostViewHolder(view, listener, data);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull UserPostViewHolder holder, int position) {
-        Post post = data.get(position);
-        holder.bind(post, position);
-    }
-
-    @Override
-    public int getItemCount() {
-        if (data == null) return 0;
-        return data.size();
+        return new UserPostViewHolder(view, listener);
     }
 }
