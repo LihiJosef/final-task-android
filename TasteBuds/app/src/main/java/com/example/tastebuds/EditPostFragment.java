@@ -118,7 +118,7 @@ public class EditPostFragment extends Fragment {
             String review = binding.reviewEt.getText().toString();
 
             Post post = new Post(id, userName, imageUrl ,location, stars, review);
-            String validationResult = post.isPostValid();
+            String validationResult = post.validationMessage();
             if(validationResult.trim() != "") {
                 Log.d("TAG", validationResult);
                 binding.validationEt.setText(validationResult);

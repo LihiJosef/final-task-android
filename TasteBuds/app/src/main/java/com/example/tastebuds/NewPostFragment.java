@@ -95,7 +95,7 @@ public class NewPostFragment extends Fragment {
             String userName = user.getEmail();
 
             Post post = new Post(id, userName, "" ,location, stars, review);;
-            String validationResult = post.isPostValid();
+            String validationResult = post.validationMessage();
             if(validationResult.trim() != "") {
                 Log.d("TAG", validationResult);
                 binding.validationEt.setText(validationResult);
