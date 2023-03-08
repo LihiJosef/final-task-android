@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -116,25 +117,30 @@ public class EditPostFragment extends Fragment {
             Integer stars = (int)binding.ratingBar.getRating();
             String review = binding.reviewEt.getText().toString();
 
-            Post post = new Post(id, userName, imageUrl ,location, stars, review);;
+            Post post = new Post(id, userName, imageUrl ,location, stars, review);
+            String validationResult = post.isPostValid();
+            if(validationResult.trim() != "") {
+                Log.d("TAG", validationResult);
+                binding.validationEt.setText(validationResult);
+            } else {
+                if (isImageSelected) {
+                    binding.postImage.setDrawingCacheEnabled(true);
+                    binding.postImage.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) binding.postImage.getDrawable()).getBitmap();
+                    PostModel.instance().uploadPostImage(id, bitmap, url -> {
+                        if (url != null) {
+                            post.setImageUrl(url);
+                        }
 
-            if(isImageSelected) {
-                binding.postImage.setDrawingCacheEnabled(true);
-                binding.postImage.buildDrawingCache();
-                Bitmap bitmap = ((BitmapDrawable) binding.postImage.getDrawable()).getBitmap();
-                PostModel.instance().uploadPostImage(id, bitmap, url -> {
-                    if (url != null) {
-                        post.setImageUrl(url);
-                    }
-
-                    PostModel.instance().editPost(post, (unused) -> {
+                        PostModel.instance().editPost(post, (unused) -> {
+                            Navigation.findNavController(view1).popBackStack();
+                        });
+                    });
+                } else {
+                    PostModel.instance().addPost(post, (unused) -> {
                         Navigation.findNavController(view1).popBackStack();
                     });
-                });
-            } else {
-                PostModel.instance().addPost(post, (unused) -> {
-                    Navigation.findNavController(view1).popBackStack();
-                });
+                }
             }
         });
 
