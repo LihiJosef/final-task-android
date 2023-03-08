@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,8 +21,8 @@ class FeedViewHolder extends RecyclerView.ViewHolder{
     TextView userTv;
     ImageView postImage;
     TextView locationTv;
-    TextView starsTv;
     TextView reviewTv;
+    RatingBar starsRB;
     List<Post> data;
 
     public FeedViewHolder(@NonNull View itemView, FeedRecyclerAdapter.OnItemClickListener listener, List<Post> data) {
@@ -31,15 +32,15 @@ class FeedViewHolder extends RecyclerView.ViewHolder{
         userTv = itemView.findViewById(R.id.feedlistrow_user_tv);
         postImage = itemView.findViewById(R.id.feedlistrow_post_img);
         locationTv = itemView.findViewById(R.id.feedlistrow_location_tv);
-        starsTv = itemView.findViewById(R.id.feedlistrow_stars_tv);
         reviewTv = itemView.findViewById(R.id.feedlistrow_review_tv);
+        starsRB = itemView.findViewById(R.id.feedlistrow_ratingbar);
     }
 
     public void bind(Post post, int pos){
         userTv.setText(post.getUserName());
         locationTv.setText(post.getLocation());
-        starsTv.setText(post.getStars().toString() + "/5");
         reviewTv.setText(post.getReview());
+        starsRB.setRating((float)post.getStars());
 
         if(post.getImageUrl().trim().length() != 0) {
             Picasso.get().load(post.getImageUrl()).placeholder(R.drawable.blank_img).into(postImage);
