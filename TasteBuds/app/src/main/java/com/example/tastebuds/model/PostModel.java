@@ -23,11 +23,7 @@ public class PostModel {
         return _instance;
     }
 
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser user;
-
     private PostModel() {
-        user = mAuth.getCurrentUser();
     }
 
     public interface Listener<T> {
@@ -85,7 +81,9 @@ public class PostModel {
     }
 
     public LiveData<List<Post>> getAllUserPosts() {
-        return localDb.postDao().getPostsByUser(this.user.getEmail());
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        return localDb.postDao().getPostsByUser(user.getEmail());
     }
 
     public void addPost(Post post, Listener<Void> listener) {

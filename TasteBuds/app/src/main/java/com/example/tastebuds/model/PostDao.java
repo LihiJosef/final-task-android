@@ -20,6 +20,7 @@ public interface PostDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Post... posts);
+
     @Delete
     void delete(Post post);
 }
