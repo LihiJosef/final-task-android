@@ -65,17 +65,4 @@ public class StaffReview {
     public void setPrice(float price) {
         this.price = price;
     }
-
-    @Override
-    public String toString() {
-        return "StaffReview{" +
-                "id='" + id + '\'' +
-                ", img='" + img + '\'' +
-                ", name='" + name + '\'' +
-                ", dsc='" + dsc + '\'' +
-                ", rate=" + rate +
-                ", country='" + country + '\'' +
-                ", price=" + price +
-                '}';
-    }
 }

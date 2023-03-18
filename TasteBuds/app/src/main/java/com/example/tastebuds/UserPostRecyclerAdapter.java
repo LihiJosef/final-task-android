@@ -27,7 +27,6 @@ class UserPostViewHolder extends GenericViewHolder<Post> {
 
         itemView.setOnClickListener(view -> {
             int pos = getAdapterPosition();
-            Log.d("TAG", "row click " + pos);
             listener.onItemClick(pos);
         });
     }
