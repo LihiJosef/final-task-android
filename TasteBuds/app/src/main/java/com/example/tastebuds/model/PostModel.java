@@ -58,12 +58,12 @@ public class PostModel {
                     }
                 }
 
-                // For testing loading - not necessary
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                // For testing loading - not necessary
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
                 // 4. update local last update
                 Post.setLocalLastUpdate(time);

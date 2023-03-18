@@ -19,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StaffReviewModel {
     private static final StaffReviewModel _instance = new StaffReviewModel();
+
     public static StaffReviewModel instance() {
         return _instance;
     }
@@ -47,7 +48,6 @@ public class StaffReviewModel {
 
     public LiveData<List<StaffReview>> getStaffReviews() {
         EventPostsListLoadingState.setValue(StaffReviewModel.LoadingState.LOADING);
-        Log.d("TAG", "LOADING");
         MutableLiveData<List<StaffReview>> data = new MutableLiveData<>();
         Call<List<StaffReview>> call = staffReviewApi.getStaffReviews();
         call.enqueue(new Callback<List<StaffReview>>() {
@@ -75,7 +75,6 @@ public class StaffReviewModel {
             }
         });
 
-        Log.d("TAG", "END LOADING!!!!!!");
         return data;
     }
 }

@@ -120,7 +120,6 @@ public class EditPostFragment extends Fragment {
             Post post = new Post(id, userName, imageUrl ,location, stars, review);
             String validationResult = post.validationMessage();
             if(validationResult.trim() != "") {
-                Log.d("TAG", validationResult);
                 binding.validationEt.setText(validationResult);
             } else {
                 if (isImageSelected) {

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,8 +25,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tastebuds.databinding.FragmentProfileBinding;
-import com.example.tastebuds.model.PostModel;
 import com.example.tastebuds.model.Post;
+import com.example.tastebuds.model.PostModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -94,8 +93,6 @@ public class ProfileFragment extends Fragment {
         adapter.setOnItemClickListener(new UserPostRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos) {
-                Log.d("TAG", "row clicked");
-                Log.d("TAG", "row click handle in activity " + pos);
                 Post post = viewModel.getData().getValue().get(pos);
                 ProfileFragmentDirections.ActionProfileFragmentToEditPostFragment action = ProfileFragmentDirections.actionProfileFragmentToEditPostFragment(post);
                 Navigation.findNavController(view).navigate(action);

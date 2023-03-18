@@ -38,20 +38,6 @@ public class FeedListFragment extends Fragment {
         adapter = new FeedRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
         binding.recyclerView.setAdapter(adapter);
 
-//        /*-> Handle row click in the activity*/
-//        adapter.setOnItemClickListener(new FeedRecyclerAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int pos) {
-//                Log.d("TAG", "row click handle in activity " + pos);
-//                Post post = viewModel.getData().getValue().get(pos);
-//                FeedListFragmentDirections.ActionStudentListFragmentToBlueFragment action =  FeedListFragmentDirections.actionStudentListFragmentToBlueFragment(post.getName());
-//                Navigation.findNavController(view).navigate(action);
-//            }
-//        });
-//
-//        // Define global action
-//        NavDirections action = StudentListFragmentDirections.actionGlobalAddStudentFragment();
-
         binding.progressBar.setVisibility(View.GONE);
 
         viewModel.getData().observe(getViewLifecycleOwner(), list -> {

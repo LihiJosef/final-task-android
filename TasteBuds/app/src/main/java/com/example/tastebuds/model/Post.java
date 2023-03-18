@@ -50,14 +50,14 @@ public class Post implements Parcelable {
     static final String LOCAL_LAST_UPDATED = "student_local_last_update";
 
 
-    public static Post parseJson(Map<String, Object> postJson){
+    public static Post parseJson(Map<String, Object> postJson) {
         String id = (String) postJson.get(ID);
         String name = (String) postJson.get(USER_NAME);
         String imageUrl = (String) postJson.get(IMAGE_URL);
         String location = (String) postJson.get(LOCATION);
         Integer stars = Integer.parseInt(postJson.get(STARS).toString());
         String review = (String) postJson.get(REVIEW);
-        Post post = new Post(id,name,imageUrl,location, stars,review);
+        Post post = new Post(id, name, imageUrl, location, stars, review);
 
         try {
             Timestamp time = (Timestamp) postJson.get(LAST_UPDATED);
@@ -74,12 +74,12 @@ public class Post implements Parcelable {
         return sharedPref.getLong(LOCAL_LAST_UPDATED, 0);
     }
 
-    public static  void setLocalLastUpdate(Long time) {
+    public static void setLocalLastUpdate(Long time) {
         MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE)
                 .edit().putLong(LOCAL_LAST_UPDATED, time).commit();
     }
 
-    public Map<String, Object> toJson(){
+    public Map<String, Object> toJson() {
         // Create a new user with a first and last name
         Map<String, Object> postJson = new HashMap<>();
         postJson.put(ID, getId());
@@ -143,18 +143,22 @@ public class Post implements Parcelable {
         this.review = review;
     }
 
-    public Long getLastUpdated() { return this.lastUpdated;}
+    public Long getLastUpdated() {
+        return this.lastUpdated;
+    }
 
-    public void setLastUpdated(Long lastUpdated) { this.lastUpdated = lastUpdated; }
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 
-    public String validationMessage () {
+    public String validationMessage() {
         String errorMessage = "";
 
         if (location.isEmpty()) {
             errorMessage = "Location must not be empty.";
-        } else if  (review.isEmpty()) {
+        } else if (review.isEmpty()) {
             errorMessage = "Review must not be empty.";
-        } else if  (stars < 1) {
+        } else if (stars < 1) {
             errorMessage = "Stars should be at list 1";
         }
 
@@ -166,7 +170,7 @@ public class Post implements Parcelable {
         return 0;
     }
 
-    protected Post (Parcel in) {
+    protected Post(Parcel in) {
         this.id = in.readString();
         this.userName = in.readString();
         this.imageUrl = in.readString();

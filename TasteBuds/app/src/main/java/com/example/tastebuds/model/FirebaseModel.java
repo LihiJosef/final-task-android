@@ -45,9 +45,9 @@ public class FirebaseModel {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         List<Post> list = new LinkedList<>();
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             QuerySnapshot postsListJson = task.getResult();
-                            for (DocumentSnapshot postJson: postsListJson){
+                            for (DocumentSnapshot postJson : postsListJson) {
                                 Post post = Post.parseJson(postJson.getData());
                                 list.add(post);
                             }
@@ -55,9 +55,11 @@ public class FirebaseModel {
                         callback.onComplete(list);
                     }
                 });
-    };
+    }
 
-    public void addPost(Post post, PostModel.Listener<Void> listener){
+    ;
+
+    public void addPost(Post post, PostModel.Listener<Void> listener) {
         Log.d("Post", "postsFireBase: " + post.getUserName());
         // Add a new document with a generated ID
         db.collection(Post.COLLECTION).document(post.getId()).set(post.toJson())
@@ -69,7 +71,7 @@ public class FirebaseModel {
                 });
     }
 
-    public void editPost(Post post, PostModel.Listener<Void> listener){
+    public void editPost(Post post, PostModel.Listener<Void> listener) {
         Log.d("Post", "edit post : " + post.getUserName());
         // Add a new document with a generated ID
         db.collection(Post.COLLECTION).document(post.getId()).update(post.toJson())
@@ -82,9 +84,8 @@ public class FirebaseModel {
     }
 
     void uploadImage(String folderName, String fileName, Bitmap bitmap, PostModel.Listener<String> listener) {
-        /*https://firebase.google.com/docs/storage/android/upload-files*/
         StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child(folderName +  "/" + fileName + ".jpg");
+        StorageReference imagesRef = storageRef.child(folderName + "/" + fileName + ".jpg");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);

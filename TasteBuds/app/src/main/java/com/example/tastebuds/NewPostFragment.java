@@ -97,7 +97,6 @@ public class NewPostFragment extends Fragment {
             Post post = new Post(id, userName, "" ,location, stars, review);;
             String validationResult = post.validationMessage();
             if(validationResult.trim() != "") {
-                Log.d("TAG", validationResult);
                 binding.validationEt.setText(validationResult);
             } else {
                 if (isImageSelected) {
