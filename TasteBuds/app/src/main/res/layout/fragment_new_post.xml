@@ -103,10 +103,8 @@
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:numStars="5"
-                android:progressTint="@color/yellow_star"
                 android:stepSize="1"
                 android:textAlignment="center" />
-
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
