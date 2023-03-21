@@ -9,6 +9,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.tastebuds.model.PostModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        reloadData();
 
         setContentView(R.layout.activity_main);
 
@@ -48,5 +51,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    void reloadData() {
+        PostModel.instance().refreshAllPosts();
+    }
 }
 
